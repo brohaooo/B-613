@@ -5,14 +5,20 @@ import { MailOutlined,UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
 function RegisterPage() {
+  const goToLogin = () => {
+    window.location.href="/";
+  };
+  const goToRegister = () => {
+    window.location.href="/register";
+  };
   return (
     <div className="page">
       
       <div className="totalBox">
         <div className='right' background="./picture/login.jpg" >
           <div className='header'>
-            <Button className='Button_h'>Login</Button>
-            <Button className='Button_h'>Register</Button>
+            <Button className='Button_h' onClick={goToLogin}>Login</Button>
+            <Button className='Button_h' onClick={goToRegister}>Register</Button>
           </div>
           <Form
             name="normal_login"
@@ -97,7 +103,7 @@ function RegisterPage() {
               <Button type="primary" htmlType="submit" className="login-form-button">
                 Register
               </Button>
-              Already have account <a href="">Login</a>
+              Already have account <a href="/">Login</a>
             </Form.Item>
           </Form>
           

@@ -5,14 +5,19 @@ import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@a
 import 'antd/dist/antd.css';
 
 function LoginPage() {
+  const goToLogin = () => {
+    window.location.href="/";
+  };
+  const goToRegister = () => {
+    window.location.href="/register";
+  };
   return (
     <div className="page">
-      
       <div className="totalBox">
         <div className='right' background="./picture/login.jpg" >
           <div className='header'>
-            <Button className='Button_h'>Login</Button>
-            <Button className='Button_h'>Register</Button>
+            <Button className='Button_h' onClick={goToLogin}>Login</Button>
+            <Button className='Button_h' onClick={goToRegister}>Register</Button>
           </div>
           <Form
             name="normal_login"
@@ -54,7 +59,7 @@ function LoginPage() {
               <Button type="primary" htmlType="submit" className="login-form-button">
                 Log in
               </Button>
-              Or <a href="">register now!</a>
+              Or <a href="./register">register now!</a>
             </Form.Item>
           </Form>
           
