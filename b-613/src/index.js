@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import LoginPage from './LoginPage';
+import RegisterPage from './RegisterPage';
 import reportWebVitals from './reportWebVitals';
 import { Layout } from 'antd';
 
@@ -9,7 +10,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RegisterPage />
   </React.StrictMode>,
   document.getElementById('root')
 );
