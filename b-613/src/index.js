@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import LoginPage from './LoginPage';
-import RegisterPage from './RegisterPage';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
 import { Layout } from 'antd';

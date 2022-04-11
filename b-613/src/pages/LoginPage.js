@@ -1,10 +1,10 @@
-import logo from './logo.svg';
-import './RegisterPage.css';
+
+import './LoginPage.css';
 import { Form, Input, Button, Checkbox } from 'antd';
-import { MailOutlined,UserOutlined, LockOutlined } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
-function RegisterPage() {
+function LoginPage() {
   const goToLogin = () => {
     window.location.href="/";
   };
@@ -13,7 +13,6 @@ function RegisterPage() {
   };
   return (
     <div className="page">
-      
       <div className="totalBox">
         <div className='right' background="./picture/login.jpg" >
           <div className='header'>
@@ -27,9 +26,8 @@ function RegisterPage() {
             // onFinish={onFinish}
           >
             <Form.Item>
-              <h>Create<br></br> Your Account</h>
+              <h>Login Into<br></br> Your Account</h>
             </Form.Item>
-
             <Form.Item
               name="username"
               rules={[{ required: true, message: 'Please input your Username!' }]}
@@ -39,31 +37,11 @@ function RegisterPage() {
               className='login-input'
               size='large'/>
             </Form.Item>
-
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
-                },
-                {
-                  required: true,
-                  message: 'Please input your E-mail!',
-                },
-              ]}
-            >
-              <Input 
-              prefix={<MailOutlined/>}
-              placeholder="E-mail"
-              size='large'/>
-            </Form.Item>
-
             <Form.Item
               name="password"
               rules={[{ required: true, message: 'Please input your Password!' }]}
             >
-              <Input.Password
+              <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
@@ -71,39 +49,17 @@ function RegisterPage() {
                 size='large'
               />
             </Form.Item>
-
-            <Form.Item
-              name="confirm"
-              dependencies={['password']}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('The two passwords that you entered do not match!'));
-                  },
-                }),
-              ]}
-            >
-              <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />} 
-              placeholder="Confirm Password" 
-              className='login-input'
-              size='large'/>
+            <Form.Item>
+              <a className="login-form-forgot" href="">
+                Forgot password
+              </a>
             </Form.Item>
-            
 
             <Form.Item className='item-register'>
               <Button type="primary" htmlType="submit" className="login-form-button">
-                Register
+                Log in
               </Button>
-              Already have account <a href="/">Login</a>
+              Or <a href="./register">register now!</a>
             </Form.Item>
           </Form>
           
@@ -113,4 +69,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default LoginPage;
