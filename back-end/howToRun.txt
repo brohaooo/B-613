@@ -1,0 +1,3 @@
+first need to change the configuration in db.config.js to correctly connect your local DB (e.g password & DB)
+npm install express sequelize mysql2 cors --save
+node server.js
