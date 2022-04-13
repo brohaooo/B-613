@@ -3,6 +3,8 @@ import './RegisterPage.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { MailOutlined,UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
+import { useState } from 'react';
+import axios from "axios";
 
 function RegisterPage() {
   const goToLogin = () => {
@@ -11,9 +13,29 @@ function RegisterPage() {
   const goToRegister = () => {
     window.location.href="/register";
   };
+ 
+  const submit = () => {
+    axios.post('http://localhost:8080/api/users/', {
+      userName: userName,
+      userEmail: mail,
+      password: password,
+    })
+    .then(function (response) {
+      goToLogin();
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    setMail('');
+    setPassword('');
+    setUserName('');
+  }; 
+  const [password,setPassword] = useState('');
+  const [userName,setUserName] = useState('');
+  const [mail,setMail] = useState('');
   return (
     <div className="page">
-      
       <div className="totalBox">
         <div className='right' background="./picture/login.jpg" >
           <div className='header'>
@@ -37,7 +59,11 @@ function RegisterPage() {
               <Input prefix={<UserOutlined className="site-form-item-icon" />} 
               placeholder="Username" 
               className='login-input'
-              size='large'/>
+              size='large'
+              onChange={(e) => {
+                setUserName(e.target.value);
+                console.log(userName)
+              }}/>
             </Form.Item>
 
             <Form.Item
@@ -56,7 +82,11 @@ function RegisterPage() {
               <Input 
               prefix={<MailOutlined/>}
               placeholder="E-mail"
-              size='large'/>
+              size='large'
+              onChange={(e) => {
+                setMail(e.target.value);
+                console.log(mail)
+              }}/>
             </Form.Item>
 
             <Form.Item
@@ -69,6 +99,10 @@ function RegisterPage() {
                 placeholder="Password"
                 className='password-input'
                 size='large'
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  console.log(password)
+                }}
               />
             </Form.Item>
 
@@ -100,7 +134,9 @@ function RegisterPage() {
             
 
             <Form.Item className='item-register'>
-              <Button type="primary" htmlType="submit" className="login-form-button">
+              <Button type="primary" htmlType="submit" className="login-form-button"
+              onClick={submit}
+              >
                 Register
               </Button>
               Already have account <a href="/">Login</a>

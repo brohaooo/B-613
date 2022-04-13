@@ -1,8 +1,10 @@
 
 import './LoginPage.css';
 import { Form, Input, Button, Checkbox } from 'antd';
-import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
+import {  UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
+import { useState } from 'react';
+import axios from 'axios';
 
 function LoginPage() {
   const goToLogin = () => {
@@ -11,6 +13,23 @@ function LoginPage() {
   const goToRegister = () => {
     window.location.href="/register";
   };
+  const Login = () => {
+    axios.post('http://localhost:8080/api/login/', {
+      userEmail: mail,
+      password: password,
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    setMail('');
+    setPassword('');
+  }; 
+  const [password,setPassword] = useState('');
+  const [mail,setMail] = useState('');
+
   return (
     <div className="page">
       <div className="totalBox">
@@ -35,7 +54,11 @@ function LoginPage() {
               <Input prefix={<UserOutlined className="site-form-item-icon" />} 
               placeholder="Username" 
               className='login-input'
-              size='large'/>
+              size='large'
+              onChange={(e) => {
+                setMail(e.target.value);
+                console.log(mail)
+              }}/>
             </Form.Item>
             <Form.Item
               name="password"
@@ -47,6 +70,10 @@ function LoginPage() {
                 placeholder="Password"
                 className='password-input'
                 size='large'
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  console.log(mail)
+                }}
               />
             </Form.Item>
             <Form.Item>
@@ -56,7 +83,8 @@ function LoginPage() {
             </Form.Item>
 
             <Form.Item className='item-register'>
-              <Button type="primary" htmlType="submit" className="login-form-button">
+              <Button type="primary" htmlType="submit" className="login-form-button"
+              onClick={Login}>
                 Log in
               </Button>
               Or <a href="./register">register now!</a>
