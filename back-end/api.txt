@@ -1,0 +1,628 @@
+
+
+//登录验证（用户名，密码）
+url = http://localhost:8080/api/login/
+method = "POST"
+request:
+{
+    
+    "userEmail": "1111@qsq.com",
+    "password": "fool"
+    
+}
+respond:
+if valid:
+{
+    "state": "valid",
+    "data": [
+        {
+            "id": 1,
+            "userName": "lxxhs",
+            "userEmail": "1111@qsq.com",
+            "password": "fool",
+            "age": 21,
+            "gender": "male",
+            "city": "Shenzhen",
+            "picture": "12exfb",
+            "createdAt": "2022-04-12T03:00:22.000Z",
+            "updatedAt": "2022-04-12T03:00:22.000Z"
+        }
+    ]
+}
+if no such email-password:
+{
+    "state": "invalid",
+    "message": "Cannot find user with email=111@qsq.com."
+}
+//退出登录（？）
+url = 
+
+method = 
+
+request:
+
+respond:
+
+//修改密码（用户，新密码）
+url = http://localhost:8080/api/modifyPassword/1
+
+method = PUT
+
+request:
+{
+    "password": "newPassword"
+}
+respond:
+success:
+{
+    "message": "user 1 was updated successfully."
+}
+failed:
+{
+    "message": "Cannot update user with id=2. Maybe user was not found or req.body is empty!"
+}
+
+//新建账户（账户信息）
+url = http://localhost:8080/api/users/
+method = "POST"
+request:
+{
+    "userName": "lxxhs",
+    "userEmail": "1111@qsq.com",
+    "password": "fool",
+    "age": 21,
+    "gender": "male",
+    "city": "Shenzhen",
+    "picture": "12exfb"
+}
+response:
+success:{
+    "state": "Success",
+    "data": {
+    "id": 1,
+    "userName": "lxxhs",
+    "userEmail": "1111@qsq.com",
+    "password": "fool",
+    "age": 21,
+    "gender": "male",
+    "city": "Shenzhen",
+    "picture": "12exfb",
+    "updatedAt": "2022-04-12T03:00:22.948Z",
+    "createdAt": "2022-04-12T03:00:22.948Z"
+    }
+}
+failed:
+{
+    "message": "Validation error"
+}
+
+//创建（圈子）
+url = http://localhost:8080/api/RCs/
+
+method = POST
+
+request:
+{
+    "rcName": "myPYQ",
+    "rcOwner": 3453245,
+    "rcTag": "friends"
+}
+respond:
+{
+    "id": 4,
+    "rcName": "myPYQ",
+    "rcOwner": 3453245,
+    "rcTag": "friends",
+    "updatedAt": "2022-04-12T03:49:51.157Z",
+    "createdAt": "2022-04-12T03:49:51.157Z"
+}
+
+//删除（圈子）
+url = http://localhost:8080/api/RCs/1
+
+method = DELETE
+
+request:
+NULL
+respond:
+success:
+{
+    "message": "RC was deleted successfully!"
+}
+failed:
+{
+    "message": "Cannot delete RC with id=1. Maybe RC was not found!"
+}
+
+//将（某用户）拉入（某圈子
+url = http://localhost:8080/api/members/
+
+method = POST
+
+request:
+{
+    "RCID": 32455,
+    "memberID": 123
+}
+respond:
+{
+    "id": 1,
+    "RCID": 32455,
+    "memberID": 123,
+    "updatedAt": "2022-04-12T03:59:12.435Z",
+    "createdAt": "2022-04-12T03:59:12.435Z"
+}
+
+//（某用户）加入（某圈子）
+//同上
+
+//（某用户）退出（某圈子）
+url = http://localhost:8080/api/members/:rcid/:memid
+
+method = DELETE
+
+request:
+NULL
+respond:
+{
+    "message": "member was removed successfully!"
+}
+//查看（某用户）好友列表（只有approved的会被罗列）
+url = http://localhost:8080/api/friends/3
+
+method = GET
+
+request:
+NULL
+respond:
+[
+    {
+        "id": 2,
+        "userID": 1,
+        "friendID": 3,
+        "validateState": "approved",
+        "createdAt": "2022-04-12T05:46:12.000Z",
+        "updatedAt": "2022-04-12T05:46:12.000Z"
+    },
+    {
+        "id": 3,
+        "userID": 2,
+        "friendID": 3,
+        "validateState": "approved",
+        "createdAt": "2022-04-12T05:46:15.000Z",
+        "updatedAt": "2022-04-12T05:46:15.000Z"
+    }
+]
+
+//（某用户）搜索账户（用户名字？ID？邮箱？目前是ID），也就是查看（某用户）
+url = http://localhost:8080/api/users/1
+
+method = GET
+
+request:
+NULL
+respond:
+{
+    "id": 1,
+    "userName": "lxxhs",
+    "userEmail": "1111@qsq.com",
+    "password": "fool",
+    "age": 21,
+    "gender": "male",
+    "city": "Shenzhen",
+    "picture": "12exfb",
+    "createdAt": "2022-04-12T08:24:36.000Z",
+    "updatedAt": "2022-04-12T08:24:36.000Z"
+}
+
+//添加（好友关系）！！！务必设定user为发起者，且状态为pending
+url = http://localhost:8080/api/friends
+
+method = POST
+
+request:
+{
+    "userID": 1,
+    "friendID": 2,
+    "validateState": "pending"
+}
+respond:
+{
+    "id": 4,
+    "userID": 1,
+    "friendID": 2,
+    "validateState": "pending",
+    "updatedAt": "2022-04-12T08:40:45.108Z",
+    "createdAt": "2022-04-12T08:40:45.108Z"
+}
+
+////删除（好友关系）(userID and friendID)
+url = http://localhost:8080/api/friends/3/2
+
+method = DELETE
+
+request:
+NULL
+respond:
+success
+{
+    "message": "Friend was deleted successfully!"
+}
+failed
+{
+    "message": "Cannot delete Friend with user id=3 and friend id=2. Maybe Friend relationship was not found!"
+}
+
+//（某用户）查看好友申请（只有pending的会被罗列）
+url = http://localhost:8080/api/friendsRequests/1
+
+method = GET
+
+request:
+NULL
+respond:
+[
+    {
+        "id": 5,
+        "userID": 1,
+        "friendID": 2,
+        "validateState": "pending",
+        "createdAt": "2022-04-12T09:47:44.000Z",
+        "updatedAt": "2022-04-12T09:47:44.000Z"
+    },
+    {
+        "id": 6,
+        "userID": 3,
+        "friendID": 1,
+        "validateState": "pending",
+        "createdAt": "2022-04-12T09:49:36.000Z",
+        "updatedAt": "2022-04-12T09:49:36.000Z"
+    }
+]
+
+//（某用户）处理（某好友申请）!!!这里userid就是这个用户id
+url = http://localhost:8080/api/dealRequest/2/1
+
+method = PUT
+
+request:
+{
+    "validateState": "approved"
+}
+respond:
+success
+{
+    "message": "user-friend 2 - 1 was updated successfully."
+}
+failed
+{
+    "message": "Cannot update user-friend 2 - 1. Maybe user-friend was not found or req.body is empty!"
+}
+//查看（某用户）的所有圈子
+url = http://localhost:8080/api/members/1
+
+method = GET
+
+request:
+NULL
+respond:
+[
+    {
+        "id": 1,
+        "RCID": 2,
+        "memberID": 1,
+        "createdAt": "2022-04-12T12:27:23.000Z",
+        "updatedAt": "2022-04-12T12:27:23.000Z"
+    },
+    {
+        "id": 2,
+        "RCID": 3,
+        "memberID": 1,
+        "createdAt": "2022-04-12T12:27:30.000Z",
+        "updatedAt": "2022-04-12T12:27:30.000Z"
+    }
+]
+
+//查看（某圈子）的所有动态
+url = http://localhost:8080/api/posts/RCID/2
+
+method = GET
+
+request:
+NULL
+respond:
+[
+    {
+        "id": 1,
+        "posterID": 1,
+        "RCID": 2,
+        "postPicSrc": "wwwadb"
+    },
+    {
+        "id": 2,
+        "posterID": 2,
+        "RCID": 2,
+        "postPicSrc": "wwwadbc"
+    },
+    {
+        "id": 3,
+        "posterID": 4,
+        "RCID": 2,
+        "postPicSrc": "wwwadadfsbc"
+    }
+]
+//查看（某动态）的内容
+url = http://localhost:8080/api/posts/2
+
+method = GET
+
+request:
+NULL
+respond:
+{
+    "id": 2,
+    "posterID": 2,
+    "RCID": 2,
+    "postPicSrc": "wwwadbc",
+    "text": "wohooooo",
+    "createdAt": "2022-04-12T13:15:33.000Z",
+    "updatedAt": "2022-04-12T13:15:33.000Z"
+}
+
+//在（某圈子）发布（动态）
+url = http://localhost:8080/api/posts
+
+method = POST
+
+request:
+{
+    "posterID": 5,
+    "RCID": 8,
+    "postPicSrc": "wwwadadfsbc",
+    "text": "wohoooosadfo"
+}
+respond:
+{
+    "id": 5,
+    "posterID": 5,
+    "RCID": 8,
+    "postPicSrc": "wwwadadfsbc",
+    "text": "wohoooosadfo",
+    "updatedAt": "2022-04-12T13:41:36.701Z",
+    "createdAt": "2022-04-12T13:41:36.701Z"
+}
+
+//在（某圈子）删除（动态），根据该动态的唯一识别id删除
+url = http://localhost:8080/api/posts/1
+
+method = DELETE
+
+request:
+NULL
+respond:
+{
+    "message": "post was deleted successfully!"
+}
+
+//在（某动态）发表（评论）
+url = http://localhost:8080/api/comments
+
+method = POST
+
+request:
+{
+    "commenterID": 2,
+    "postID": 3,
+    "content": "I'm sorry"
+}
+respond:
+{
+    "id": 1,
+    "commenterID": 2,
+    "postID": 3,
+    "content": "I'm sorry",
+    "updatedAt": "2022-04-12T13:49:10.714Z",
+    "createdAt": "2022-04-12T13:49:10.714Z"
+}
+
+//在（某动态）删除（某评论），根据该评论的唯一识别id删除
+url = http://localhost:8080/api/comments/2
+
+method = DELETE
+
+request:
+NULL
+respond:
+success
+{
+    "message": "comment with id=2 was deleted successfully!"
+}
+failed
+{
+    "message": "Cannot delete comment with id=0. Maybe RC was not found!"
+}
+//（某用户）在（某动态）点赞
+url = http://localhost:8080/api/likeLists
+
+method = POST
+
+request:
+{
+    "postID": 3,
+    "likerID": 2
+}
+respond:
+{
+    "id": 1,
+    "postID": 3,
+    "likerID": 2,
+    "updatedAt": "2022-04-12T14:29:18.568Z",
+    "createdAt": "2022-04-12T14:29:18.568Z"
+}
+
+//（某用户）在（某动态）取消点赞
+url = http://localhost:8080/api/likeLists/2
+
+method = DELETE
+
+request:
+NULL
+respond:
+{
+    "message": "like with id=2 was deleted successfully!"
+}
+
+//查看（某动态）的所有评论
+url = http://localhost:8080/api/comments/post/1
+
+method = GET
+
+request:
+NULL
+respond:
+[
+    {
+        "id": 3,
+        "commenterID": 2,
+        "postID": 1,
+        "content": "I'm sorry",
+        "createdAt": "2022-04-12T16:08:34.000Z",
+        "updatedAt": "2022-04-12T16:08:34.000Z"
+    },
+    {
+        "id": 5,
+        "commenterID": 3,
+        "postID": 1,
+        "content": "I'm sorry",
+        "createdAt": "2022-04-12T16:08:47.000Z",
+        "updatedAt": "2022-04-12T16:08:47.000Z"
+    }
+]
+//查看（某动态）的所有点赞
+url = http://localhost:8080/api/likeLists/post/1
+
+method = GET
+
+request:
+NULL
+respond:
+[
+    {
+        "id": 3,
+        "postID": 1,
+        "likerID": 3,
+        "createdAt": "2022-04-12T16:15:40.000Z",
+        "updatedAt": "2022-04-12T16:15:40.000Z"
+    },
+    {
+        "id": 4,
+        "postID": 1,
+        "likerID": 4,
+        "createdAt": "2022-04-12T16:15:45.000Z",
+        "updatedAt": "2022-04-12T16:15:45.000Z"
+    }
+]
+//（某用户）查看（某圈子）
+url = http://localhost:8080/api/RCs/1
+
+method = GET
+
+request:
+{
+    "rcName": "myPYQ1122",
+    "rcOwner": 21,
+    "rcTag": "friends"
+    
+}
+respond:
+{
+    "id": 1,
+    "rcName": "myPYQ",
+    "rcOwner": 2,
+    "rcTag": "friends",
+    "createdAt": "2022-04-12T16:30:34.000Z",
+    "updatedAt": "2022-04-12T16:30:34.000Z"
+}
+
+//4.13新增api:
+//查看邮箱是否被注册
+url = http://localhost:8080/api/verifyEmail
+
+method = POST
+
+request:
+{
+    "userEmail": "119010181@link.cuhk.edu.cn"
+}
+respond:
+{
+    "state": "valid"
+}
+{
+    "state": "invalid"
+}
+//查看用户名是否被注册（需要吗）
+url = 
+
+method = 
+
+request:
+
+respond:
+
+//发送邮件并记录 邮箱--验证码 
+url = http://localhost:8080/api/codeSending
+
+method = POST
+
+request:
+{
+    "userEmail": "119010181@link.cuhk.edu.cn"
+}
+respond:
+{
+    "accepted": [
+        "18926040525@163.com",
+        "119010181@link.cuhk.edu.cn"
+    ],
+    "rejected": [],
+    "envelopeTime": 185,
+    "messageTime": 141,
+    "messageSize": 1221,
+    "response": "250 Mail OK queued as smtp7,C8CowAAX55opBVdiSryHBA--.26933S2 1649870122",
+    "envelope": {
+        "from": "18926040525@163.com",
+        "to": [
+            "18926040525@163.com",
+            "119010181@link.cuhk.edu.cn"
+        ]
+    },
+    "messageId": "<2116e93c-e009-67a8-abc0-747528002641@163.com>"
+}
+//验证邮箱--验证码
+url = http://localhost:8080/api/codeChecking
+
+method = POST
+
+request:
+{
+    "userEmail": "119010181@link.cuhk.edu.cn",
+    "code": 123456
+}
+respond:
+success
+{
+    "state": "valid"
+}
+failed
+{
+    "state": "invalid"
+}
+//------------
+url =
+
+method =
+
+request:
+
+respond:
