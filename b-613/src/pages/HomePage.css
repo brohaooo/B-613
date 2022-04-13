@@ -6,33 +6,167 @@
 .left-menu{
   width: 20%;
   height: 100%;
-  background-color: red;
-  overflow-y:scroll;
+  background-color: rgb(230, 230, 237);
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.top-bar{
+  border-radius: 1%;
+}
+
 .test{
   flex-shrink: 0;
+  
   margin-top: 20px;
   height: 300px !important;
   width: 80%;
-  background-color: #F5F5F5;
+  background-color: rgb(254, 255, 254);
+}
+
+.test button {
+  width: 20%; /* Set a width if needed */
+  height: 20%;
+  margin-top: 3% !important;
+
+  display: block; /* Make the buttons appear below each other */
+  border-radius: 50%
 }
 
 .right-part{
   height: 100%;
-  background-color: blue;
+  background-color: rgb(230, 230, 237);
   width: 80%;
 }
 
+.top-icon{
+
+  background-color: rgb(128, 128, 133);
+
+}
+.person-form {
+  border-radius: 15px;
+  margin-top: 3% !important;
+  margin-left: 3%;
+  margin-right: 3%;
+  font-size: 10px;
+  width: 70%;
+
+  max-height: 100%;
+  background-color: rgb(254, 255, 254);
+  padding: 3% 3% 3% 3% !important;
+  fill-opacity: 0.5;
+}
+
+.switch-form {
+  border-radius: 15px;
+  margin-top: 3% !important;
+  font-size: 10px;
+  width: 30%;
+
+  max-height: 100%;
+  background-color: rgb(254, 255, 254);
+  padding: 3% 3% 3% 3% !important;
+  fill-opacity: 0.5;
+}
+
+
 .top-bar{
+  display: flex;
+  align-items: center;
+  justify-content: start;
   height: 10%;
-  background-color: green;
+  background-color: rgb(254, 255, 254);
   width: 100%;
 }
 
+.search-input {
+  border-radius: 15px;
+  display: flex;
+  
+}
+.person-button{
+  background-image: url(../picture/login_background.jpg);
+  width:50px;
+  height:50px;
+  border-radius: 50% !important;
+
+}
+.switch-button{
+  background-color: rgb(230, 230, 237);
+  margin: 5px;
+  width:50px;
+  height:50px;
+  border-radius: 10% !important;
+
+}
+.Button_h{
+
+  width:50px;
+  height:50px;
+  border-radius: 50% !important;
+}
+
+.left-menu-icon{
+  width:50px;
+  height:50px;
+  border-radius: 50% !important;
+
+}
+.Button_top{
+
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  background-color:rgba(172, 167, 167, 0.9) !important;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  border-width: 0ch !important;
+  margin-right: 50px;
+  margin-left: 50px;
+  
+  width:50px;
+  height:50px;
+  border-radius: 50% !important;
+}
+
+.form1{
+  border-radius: 15px;
+  margin-top: 3% !important;
+  font-size: 10px;
+  width: 30%;
+
+  max-height: 100%;
+  background-color: rgba(255,255,255,0.9);
+  padding: 3% 3% 3% 3% !important;
+  fill-opacity: 0.5;
+  display: block;
+}
+.form2{
+  border-radius: 15px;
+  margin-top: 3% !important;
+  font-size: 10px;
+  width: 30%;
+
+  max-height: 100%;
+  background-color: rgba(255,255,255,0.9);
+  padding: 3% 3% 3% 3% !important;
+  fill-opacity: 0.5;
+  display: none;
+}
+.form3{
+  border-radius: 15px;
+  margin-top: 3% !important;
+  font-size: 10px;
+  width: 30%;
+
+  max-height: 100%;
+  background-color: rgba(255,255,255,0.9);
+  padding: 3% 3% 3% 3% !important;
+  fill-opacity: 0.5;
+  display: none;
+}
 /* 滚动条相关设置 */
 ::-webkit-scrollbar { 
   width:5px; 
@@ -44,3 +178,4 @@
   background-color: black; 
   border-radius: 50px;
 }
+
