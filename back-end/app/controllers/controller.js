@@ -1,4 +1,4 @@
-const { members } = require("../models");
+const { members, userInfo } = require("../models");
 const db = require("../models");
 const post = require("../models/post");
 const User = db.userInfo;
@@ -8,7 +8,9 @@ const Post = db.posts;
 const Comment = db.comments;
 const RCMember = db.members;
 const PostLike = db.postLikes;
-
+const emailCode = db.emailCodes;
+let fs = require("fs");
+const path =require('path');  
 
 const Op = db.Sequelize.Op;
 //---------------------USER-------------------------
@@ -138,6 +140,22 @@ exports.login = (req, res) => {
   User.findAll({ where: { userEmail: user.userEmail , password: user.password }})
     .then(data => {
       if (data.length != 0) {
+        const user = {
+          id: data[0].dataValues.id,
+          userName: data[0].dataValues.userName,
+          userEmail: data[0].dataValues.userEmail,
+          password: data[0].dataValues.password,
+          age: data[0].dataValues.age,
+          gender: data[0].dataValues.gender,
+          city: data[0].dataValues.city,
+          picture: data[0].dataValues.picture
+        };
+
+
+        req.session.user = user;  
+        
+        console.log(user);
+        
         state = "valid";
         res.send({state,data});
       } 
@@ -156,7 +174,14 @@ exports.login = (req, res) => {
 };
 
 //退出登录（？）
-
+exports.logout = async (req, res) => {
+  try {
+    req.session = null;
+    return res.status(200).send({ message: "You've been signed out!" });
+  } catch (err) {
+    this.next(err);
+  }
+};
 
 //修改密码（用户，新密码）
 exports.modifyPassword = (req, res) => {
@@ -199,7 +224,7 @@ exports.createUser = (req, res) => {
     age: req.body.age,
     gender: req.body.gender,
     city: req.body.city,
-    picture: req.body.picture
+    picture: "default.png"
     //published: req.body.published ? req.body.published : false
   };
   // Save user in the database
@@ -255,23 +280,29 @@ exports.deleteRC = (req, res) => {
   const id = req.params.id;
   RC.destroy({
     where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "RC was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete RC with id=${id}. Maybe RC was not found!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete RC with id=" + id
-      });
+  }).catch(err => {
+    res.status(500).send({
+      message: "Could not delete RC with id=" + id
     });
+  });
+    
+    
+  Comment.destroy({
+        where: { RCID: id },
+        truncate: false
+    })
+       
+  PostLike.destroy({
+        where: { RCID: id },
+        truncate: false
+    })
+        
+  RCMember.destroy({
+    where: { RCID: id },
+    truncate: false
+  })
+    
+  res.send({ message: ` RC is deleted successfully! Comments and postlikes are deleted successfully! All RCmembers were deleted successfully!` });
 };
 
 //(某用户)将（某用户）拉入（某圈子）
@@ -571,7 +602,7 @@ exports.checkUserRCs = (req, res) => {
 exports.checkPostsByRCID = (req, res) => {
   const id = req.params.id;
   Post.findAll({
-    attributes: ['id', 'posterID','RCID','postPicSrc'],
+    attributes: ['id', 'posterID','RCID','postPicSrc','mood'],
     where: {
       RCID : id
     } 
@@ -609,7 +640,7 @@ exports.findOnePost = (req, res) => {
     });
 };
 
-//（某用户）在（某圈子）发布（动态）
+//（某用户）在（某圈子）发布（动态）带图片!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!修改过！！！！！！！！！！！！！！！！！
 exports.createPost = (req, res) => {
   // Validate request
   if (!req.body.posterID) {
@@ -624,13 +655,76 @@ exports.createPost = (req, res) => {
     });
     return;
   }
+  if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
+    res.render("error", {message: "上传文件不能为空！"});
+    return;
+  } 
+  else {
+    let file = req.file;
+    let fileInfo = {};
+    console.log(file);
+    //这里可以重命名
+    //fs.renameSync('./upload/' + file.filename, './upload/' + file.originalname);
+    //我选择在乱码名字后面加上文件后缀，不然打不开
+    const extname = path.extname(file.originalname)
+    const fileName =  file.filename + extname;
+    fs.renameSync('./upload/' + file.filename, './upload/' + fileName);
+    // 获取文件信息
+    fileInfo.mimetype = file.mimetype;
+    fileInfo.originalname = file.originalname;
+    fileInfo.size = file.size;
+    fileInfo.path = file.path;
+    //console.log(file.originalname);
+   
+
+    // Create a post
+    const post = {
+      posterID: req.body.posterID,
+      RCID: req.body.RCID,
+      postPicSrc: fileName,
+      text: req.body.text,
+      mood: req.body.mood
+    };
+    // Save post in the database
+    Post.create(post)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the post."
+        });
+      }); 
+  }
   
+};
+
+//（某用户）在（某圈子）发布（动态）不带图片!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!新增！！！！！！！！！！！！！！！！！
+exports.createPostNoPic = (req, res) => {
+  // Validate request
+  if (!req.body.posterID) {
+    res.status(400).send({
+      message: "posterID can not be empty!"
+    });
+    return;
+  }
+  if (!req.body.RCID) {
+    res.status(400).send({
+      message: "RCID can not be empty!"
+    });
+    return;
+  }
+ 
+  
+ 
   // Create a post
   const post = {
     posterID: req.body.posterID,
     RCID: req.body.RCID,
-    postPicSrc: req.body.postPicSrc,
-    text: req.body.text
+    postPicSrc: "noPic",
+    text: req.body.text,
+    mood: req.body.mood
   };
   // Save post in the database
   Post.create(post)
@@ -643,30 +737,45 @@ exports.createPost = (req, res) => {
           err.message || "Some error occurred while creating the post."
       });
     }); 
+  
+  
 };
-
-//（某用户）在（某圈子）删除（动态）
-exports.deletePost = (req, res) => {
-  const id = req.params.id;
-  Post.destroy({
-    where: { id: id }
-  })
-    .then(num => {
+/*
+.then(num => {
       if (num == 1) {
-        res.send({
-          message: "post was deleted successfully!"
-        });
+          ;
       } else {
         res.send({
           message: `Cannot delete post with id=${id}. Maybe RC was not found!`
         });
       }
     })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete post with id=" + id
-      });
+*/
+
+//（某用户）在（某圈子）删除（动态）
+exports.deletePost = (req, res) => {
+  const id = req.params.id;
+  Post.destroy({
+    where: { id: id }
+  }).catch(err => {
+    res.status(500).send({
+      message: "Could not delete post with id=" + id
     });
+  });
+    
+  
+
+
+  PostLike.destroy({
+      where: { postID: id },
+      truncate: false
+  })
+        
+  Comment.destroy({
+      where: { postID: id },
+      truncate: false
+  })
+  res.send({ message: ` post is deleted successfully! Comments and postlikes are deleted successfully!` });
 };
 
 //（某用户）在（某动态）发表（评论）
@@ -694,6 +803,7 @@ exports.createComment = (req, res) => {
   const comment = {
     commenterID: req.body.commenterID,
     postID: req.body.postID,
+    RCID: req.body.RCID,
     content: req.body.content
   };
   // Save comment in the database
@@ -748,11 +858,17 @@ exports.createPostLikes = (req, res) => {
     });
     return;
   }
+  if (!req.body.RCID) {
+    res.status(400).send({
+       message: "RCID can not be empty!"
+    });
+      return;
+  }
   // Create a comment
   const Postlike = {
     postID: req.body.postID,
-    likerID: req.body.likerID
-    
+    likerID: req.body.likerID,
+    RCID: req.body.RCID
   };
   // Save comment in the database
   PostLike.create(Postlike)
@@ -854,34 +970,156 @@ exports.findOneRC = (req, res) => {
 };
 
 
+//查看邮箱是否被注册
+exports.verifyEmail = (req, res) => {
+  const email = req.body.userEmail;
+  var state = "valid";
+  
+  User.findAll({ where: { userEmail: email }})
+    .then(data => {
+      if (data.length != 0) {
+        state = "invalid";
+        res.send({state});
+      } 
+      else {
+        res.send({state});
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving user with email=" + user.userEmail
+      });
+    });
+};
+
+//查看用户名是否被注册（需要吗）
 
 
-//---------------------FRIEND-------------------------
-// Create and Save a new friend couple
+//发送邮件并记录 邮箱--验证码 
+//nodemailer用于邮箱验证: npm install nodemailer
+const nodemailer = require("nodemailer")
+
+exports.codeSending = (req, res) => {
+  const email = req.body.userEmail;
+  let code = Math.floor(Math.random() * 900000) + 100000;
+  const EC = {
+    email: email,
+    code: code
+  };
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.163.com',
+    secureConnection: true,
+    port: 465,
+    auth:{
+      user: '18926040525@163.com',
+      pass: 'UPOUWYHMHQGXWHMF',
+    }
+  })
+  //配置相关参数
+  let options = {
+    from: '18926040525@163.com',
+    to: '18926040525@163.com,'+ email,
+    subject: '欢迎您',
+    html: 
+    `
+    <div style="width:600px;margin:30px auto">
+    <h1 style="text-align:center;">欢迎注册B-613系统账户</h1>
+    <p style="font-size:24px">此次的验证码如下：</p><strong
+        style="font-size: 20px;display:block;text-align: center;color: red">${code}</strong>
+    <p>验证码永久有效，因为我懒得定时清除了</p><i style="color: red">此邮件为系统自动发送，请勿回复！若您没有进行注册请忽略</i>   
+    </div>
+    `
+  }
+  transporter.sendMail(options,function(err,msg){
+    if(err){
+      console.log(err)
+    }
+    else{
+      res.send(msg)
+      transporter.close()
+    }
+  })
+
+  emailCode.destroy({
+    where: { email: email }
+  })
+  emailCode.create(EC);
+
+};
+
+//验证邮箱--验证码
+
+exports.codeChecking = (req, res) => {
+  const email = req.body.userEmail;
+  const code = req.body.code;
+  var state = "valid";
+  
+  emailCode.findAll({ where: { 
+    [Op.and]: [
+      { email : email },
+      { code : code }
+    ] 
+
+   }})
+    .then(data => {
+      if (data.length == 0) {
+        state = "invalid";
+        res.send({state});
+      } 
+      else {
+        res.send({state});
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving user with email=" + user.userEmail
+      });
+    });
+};
 
 
+//上传头像 
 
 
-//---------------------RELATIONSHIP CIRCLE-------------------------
-
-
-//-----------------------POST------------------------
-
-
-//-----------------------COMMENT------------------------
-
-
-//-----------------------MEMBER-RC--------------------
-
-
-
-//-----------------------POST-LIKELIST--------------------
-
-
-
-
-
-
+exports.uploadHead = (req, res) => {
+  if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
+      res.render("error", {message: "上传文件不能为空！"});
+      return
+  } else {
+     let file = req.file;
+     let fileInfo = {};
+     console.log(file);
+     //这里可以重命名
+     //fs.renameSync('./upload/' + file.filename, './upload/' + file.originalname);
+     //我选择在乱码名字后面加上文件后缀，不然打不开
+     const extname = path.extname(file.originalname)
+     const fileName =  file.filename + extname;
+     fs.renameSync('./upload/' + file.filename, './upload/' + fileName);
+     // 获取文件信息
+     fileInfo.mimetype = file.mimetype;
+     fileInfo.originalname = file.originalname;
+     fileInfo.size = file.size;
+     fileInfo.path = file.path;
+     //console.log(file.originalname);
+     const newHead ={
+       picture : fileName,
+       id : req.body.id
+     }
+     console.log(newHead);
+     //存入数据库:
+     User.update(newHead, {
+      where: { id: newHead.id }
+    })
+     
+     // 设置响应类型及编码
+     res.set({
+       'content-type': 'application/json; charset=utf-8'
+    });
+      const state = "上传成功！"
+     res.send({state,fileInfo});
+     
+  }
+}
 
 
 

@@ -6,6 +6,10 @@ module.exports = (sequelize, Sequelize) => {
       likerID: {
         type: Sequelize.INTEGER
         //unique: true
+      },
+      RCID: {
+        type: Sequelize.INTEGER
+        //unique: true
       }
     });
     return postLike;

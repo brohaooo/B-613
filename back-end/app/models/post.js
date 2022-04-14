@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
       },
       text: {
         type: Sequelize.STRING
+      },
+      mood: {
+        type: Sequelize.STRING
       }
     });
     return Post;

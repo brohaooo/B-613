@@ -7,6 +7,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
         //unique: true
       },
+      RCID: {
+        type: Sequelize.INTEGER
+        //unique: true
+      },
       content: {
         type: Sequelize.STRING
       }

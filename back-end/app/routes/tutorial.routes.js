@@ -1,26 +1,17 @@
 module.exports = app => {
     const Users = require("../controllers/controller.js");
-    /*
-    const Friends = require("../controllers/controller.js");
-    const RCs = require("../controllers/controller.js");
-    const Posts = require("../controllers/controller.js");
-    const Comments = require("../controllers/controller.js");
-    const RCMembers = require("../controllers/controller.js");
-    */
-
+    
 
     var router = require("express").Router();
-    //-----------------------USER------------------------
-    // Create a new User
+
+    let multer = require('multer');
+
+  
     
-    // Retrieve all Users
+    
+    //获得所有用户
     router.get("/users/", Users.findAllUser);
 
-    // Retrieve all published Users
-    //router.get("/published", Users.findAllPublishedUser);
-    
-    // Retrieve a single User with id
-    //router.get("/users/:id", Users.findOneUser);
     // Update a User with id
     router.put("/users/:id", Users.updateUser);
     // Delete a User with id
@@ -29,26 +20,7 @@ module.exports = app => {
     router.delete("/users/", Users.deleteAllUser);
 
 
-    //-----------------------FRIEND------------------------
-    //create Friends
     
-
-    //-----------------------RELATIONSHIP CIRCLE------------------------
-   
-
-    //-----------------------POST------------------------
-    //create a Post
-    
-
-    //-----------------------COMMENT------------------------
-    //create a comment
-    
-
-    //-----------------------MEMBER-RC--------------------
-    //create a member in a RC
-    
-    //-----------------------POST-LIKELIST--------------------
-    //create a liker in a post
     
 
 
@@ -56,7 +28,21 @@ module.exports = app => {
     router.post("/login/", Users.login);
     
     //退出登录（？）
+    router.post("/logout", Users.logout);
 
+
+    //一个登录测试
+    //修改router/users.js，判断用户是否登陆。
+    router.get('/test', function(req, res, next) {
+      if(req.session.user){
+          var USER = req.session.user;
+          
+          
+          res.send('你好'+ USER.id +'，欢迎来到我的家园。');
+      }else{
+          res.send('你还没有登录，先登录下再试试！');
+      }
+    });
 
     //修改密码（用户，新密码）
     
@@ -106,8 +92,14 @@ module.exports = app => {
     //查看（某动态）的内容
     router.get("/posts/:id", Users.findOnePost);
 
-    //在（某圈子）发布（动态）
-    router.post("/posts/", Users.createPost);
+    //在（某圈子）发布（动态）!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!修改过！！！！！！！！！！！！！！！！！
+    router.post(
+      "/posts/",
+      multer({dest: 'upload'}).single('file'),
+      Users.createPost 
+    );
+    //（某用户）在（某圈子）发布（动态）不带图片!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!新增！！！！！！！！！！！！！！！！！
+    router.post("/posts/noPic", Users.createPostNoPic);
 
     //在（某圈子）删除（动态），根据该动态的唯一识别id删除
     router.delete("/posts/:id", Users.deletePost);
@@ -133,8 +125,35 @@ module.exports = app => {
     //查看（某圈子）
     router.get("/RCs/:id", Users.findOneRC);
 
-    
 
+    //4.13新增api:
+    //查看邮箱是否被注册
+    router.post("/verifyEmail/", Users.verifyEmail);
+
+    //查看用户名是否被注册（需要吗）
+
+
+    //发送邮件并记录 邮箱--验证码 
+    router.post("/codeSending/", Users.codeSending);
+
+    //验证邮箱--验证码
+    router.post("/codeChecking/", Users.codeChecking);
+
+
+    //上传头像 
+    
+    //设置文件存储路径,upload文件夹如果不存在则会自己创建一个。
+    router.post(
+      '/userPhoto',
+      multer({dest: 'upload'}).single('file'),
+      Users.uploadHead 
+    );
+
+
+     //上传动态*改
+
+
+     
 
 
     app.use('/api', router);
