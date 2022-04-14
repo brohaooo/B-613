@@ -1,20 +1,81 @@
 .page-1{
   height: 100vh;
   display: flex;
+  background-color: white;
+}
+
+.logo{
+  margin-top: -20px;
+  margin-bottom: -28%;
+  margin-left: 20px;
+}
+
+.avatar{
+  margin-top: 15%;
+  height: 60px;
+  width: 80%;
+  margin-left: 5%;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 5%;
+}
+
+.newMoment{
+  margin-top: 15%;
+  background-color: #555fa3;
+  border-style: none;
+  width: 70%;
+  font-weight: bold;
+  height: 50px;
+  font-size: 18px;
+
+}
+
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+  color: #fff;
+  background: #ed9b52;
+  border-color: #ed9b52;
+}
+.avatarName{
+  width: 60%;
+  margin-left: 10%;
+  line-height: 30px;
+  font-size: 30px;
+  font-weight: 700;
+  overflow-wrap:break-word;
 }
 
 .left-menu{
+  border-right-style: solid ;
+  border-right-width: 1.5px;
+  border-right-color: RGB(85,95,163,0.3);
   width: 20%;
-  height: 100%;
-  background-color: rgb(230, 230, 237);
-  overflow-y: scroll;
+  height: 100vh;
+  /* overflow-y: scroll; */
   display: flex;
   flex-direction: column;
   align-items: center;
+
+}
+.left_logo{
+  width : 35px;
+  height: 35px;
+  ;
 }
 
-.top-bar{
-  border-radius: 1%;
+.menuItem{
+  margin-top: 10%;
+  width: 70%;
+  margin-left: 10%;
+  display: flex;
+}
+
+h2{
+  margin-left: 20%;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 23px;
+  color: #9c9c9c;
 }
 
 .test{
@@ -23,7 +84,6 @@
   margin-top: 20px;
   height: 300px !important;
   width: 80%;
-  background-color: rgb(254, 255, 254);
 }
 
 .test button {
@@ -37,15 +97,31 @@
 
 .right-part{
   height: 100%;
-  background-color: rgb(230, 230, 237);
   width: 80%;
 }
 
-.top-icon{
-
-  background-color: rgb(128, 128, 133);
-
+.ant-card-meta-title {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
 }
+
+.ant-card-meta-description {
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+}
+
+.ant-card-bordered {
+  border: 1px solid #f0f0f0;
+  border-radius: 15px;
+  border-style: none;
+  background: linear-gradient( #555fa3 20%, #ed9b52) top right;;
+}
+
 .person-form {
   border-radius: 15px;
   margin-top: 3% !important;
@@ -55,7 +131,6 @@
   width: 70%;
 
   max-height: 100%;
-  background-color: rgb(254, 255, 254);
   padding: 3% 3% 3% 3% !important;
   fill-opacity: 0.5;
 }
@@ -67,19 +142,39 @@
   width: 30%;
 
   max-height: 100%;
-  background-color: rgb(254, 255, 254);
   padding: 3% 3% 3% 3% !important;
   fill-opacity: 0.5;
 }
 
+.item-menu{
+  display: flex;
+  flex-direction: column;
+  height: 40%;
+  width:100%;
+  align-items: center;
+  margin-top: 25%;
+  margin-bottom: 10%;
+  justify-content: space-between;
+}
 
 .top-bar{
+  overflow-x: scroll;
+  scroll-behavior: smooth ;
+  overflow-y: hidden;
+  padding: 15px 1px 15px 15px;
   display: flex;
   align-items: center;
   justify-content: start;
-  height: 10%;
-  background-color: rgb(254, 255, 254);
+  height: 130px;
   width: 100%;
+  border-bottom-width: 1.5px;
+  border-bottom-style:solid ;
+  border-bottom-color: #9c9c9c;
+}
+
+.content{
+  overflow-y: scroll;
+  height: calc(100% - 130px);
 }
 
 .search-input {
@@ -102,7 +197,7 @@
   border-radius: 10% !important;
 
 }
-.Button_h{
+.Button_1{
 
   width:50px;
   height:50px;
@@ -168,14 +263,15 @@
   display: none;
 }
 /* 滚动条相关设置 */
-::-webkit-scrollbar { 
-  width:5px; 
-  height:20px; 
-  background-color:#F5F5F5; 
+::-webkit-scrollbar
+
+{
+    display: none;
+
 }
 /* 滑块 */
-::-webkit-scrollbar-thumb { 
-  background-color: black; 
-  border-radius: 50px;
-}
+/* ::-webkit-scrollbar-thumb { 
+  background-color: RGB(85,95,163,0.5);
+  border-radius: 10px;
+} */ 
 

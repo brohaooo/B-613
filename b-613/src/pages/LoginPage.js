@@ -13,6 +13,9 @@ function LoginPage() {
   const goToRegister = () => {
     window.location.href="/register";
   };
+  const goToHome = () => {
+    window.location.href="/home";
+  };
   const Login = () => {
     axios.post('http://localhost:8080/api/login/', {
       userEmail: mail,
@@ -20,6 +23,7 @@ function LoginPage() {
     })
     .then(function (response) {
       console.log(response);
+      goToHome();
     })
     .catch(function (error) {
       console.log(error);
@@ -64,7 +68,7 @@ function LoginPage() {
               name="password"
               rules={[{ required: true, message: 'Please input your Password!' }]}
             >
-              <Input
+              <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
@@ -77,7 +81,7 @@ function LoginPage() {
               />
             </Form.Item>
             <Form.Item>
-              <a className="login-form-forgot" href="">
+              <a className="login-form-forgot" style={{color: '#555fa3'}} href="">
                 Forgot password
               </a>
             </Form.Item>
@@ -87,7 +91,7 @@ function LoginPage() {
               onClick={Login}>
                 Log in
               </Button>
-              Or <a href="./register">register now!</a>
+              Or <a href="./register" style={{color: '#555fa3'}}>register now!</a>
             </Form.Item>
           </Form>
           

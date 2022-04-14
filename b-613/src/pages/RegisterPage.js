@@ -139,7 +139,7 @@ function RegisterPage() {
               >
                 Register
               </Button>
-              Already have account <a href="/">Login</a>
+              Already have account <a style={{color: '#555fa3'}} href="/">Login</a>
             </Form.Item>
           </Form>
           

@@ -1,34 +1,30 @@
 
 import './HomePage.css';
-import { Form, Input, Button, Checkbox } from 'antd';
-import { Layout,Sider,Header,Content,Footer } from 'antd';
-import { PoweroffOutlined,AlertOutlined,CommentOutlined,EyeInvisibleOutlined, EyeTwoTone, UserOutlined, SearchOutlined, LockOutlined, HomeOutlined, ThunderboltOutlined,StarOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Checkbox, Avatar,Card } from 'antd';
+import {planet} from '../picture/planet.png'
+import { RightCircleOutlined,BellOutlined, EyeTwoTone,TeamOutlined, UserOutlined, SearchOutlined, LockOutlined, HomeOutlined, ThunderboltOutlined,StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import { Directions } from '@mui/icons-material';
 import logo from '../picture/logo.png'
+import Moment from '../components/Moment';
 
 
-
-
+const {Meta} = Card;
 
 function HomePage() {
   var o = new Image;
   o.src = '../2.png';
-  const hide1 = () => {
-    document.getElementById("form1").style.display="block";
-    document.getElementById("form2").style.display="none";
-    document.getElementById("form3").style.display="none";
-    };
-  const hide2 = () => {
-    document.getElementById("form1").style.display="none";
-    document.getElementById("form2").style.display="block";
-    document.getElementById("form3").style.display="none";
-    };
-  const hide3 = () => {
-    document.getElementById("form1").style.display="none";
-    document.getElementById("form2").style.display="none";
-    document.getElementById("form3").style.display="block";
-    };
+  var allCard=[];
+  for(let i=0;i<9;i++){
+        allCard.push(<Card
+                className='card'
+                hoverable
+                style={{ width: 100, height: 100,flexShrink: 0, marginRight: '15px' }}
+                cover={<div style={{width: '100%',display: 'flex',justifyContent:'center'}}><Avatar style={{marginTop:'15px'}} size={32} icon={<UserOutlined />}  /></div>}
+              >
+                <Meta className='meta' title="Planet"/>
+              </Card>)
+      
+  };
 
   const goToLogin = () => {
     window.location.href="/";
@@ -37,117 +33,45 @@ function HomePage() {
     window.location.href="/register";
   };
 
+  
 
   return (
     <div className='page-1'>
       <div className='left-menu'>
-      <div className='test'>
-      <>
-            <img src={logo} alt="logo" />
-        </>
-      </div>
-        <div className='test'>
-        News Feeds
-          <div className='test1'>
-            <Button className='menu-button' onClick={goToLogin}><HomeOutlined className="site-form-item-icon" /></Button>
-            <div>
-              Personal Profile
-            </div>
-          </div>
-          <div className='test1'>
-            <Button className='menu-button' onClick={goToLogin}><HomeOutlined className="site-form-item-icon" /></Button>
-            <div>
-              My Groups
-            </div>
-          </div>
-          <div className='test1'>
-            <Button className='menu-button' onClick={goToLogin}><HomeOutlined className="site-form-item-icon" /></Button>
-            <div>
-              Newsfeed
-            </div>
-          </div>
-
-
+        <div className='logo'>
+          <img  src={require('../picture/logo.png') } alt="logo"></img>
         </div>
+       <div className='item-menu'>
+         <div className='menuItem'>
+          <HomeOutlined style={{fontSize:'35px', color: '#9c9c9c'}}/>
+          <h2>Home</h2>
+        </div>
+        <div className='menuItem'>
+          <TeamOutlined style={{fontSize:'35px', color: '#9c9c9c' }}/>
+          <h2>Friends</h2>
+        </div>
+        <div className='menuItem'>
+          <BellOutlined style={{fontSize:'35px', color: '#9c9c9c'}}/>
+          <h2>Message</h2>
+        </div>
+        <div className='menuItem'>
+          <img src={require('../picture/planet_un.png')  }  className='left_logo' alt="logo"></img>
+          <h2>Planet</h2>
+        </div>
+       </div>
         
-        <div className='test'></div>
+        <div className='avatar'>
+          <Avatar size={64} icon={<UserOutlined />}  />
+          <h2 className='avatarName'>Username</h2>
+        </div>
+        <Button className='newMoment' type="primary" shape="round">New Moment</Button>
       </div>
       <div className='right-part'>
         <div className='top-bar'>
-          
-          <Button className='Button_top' onClick={goToLogin}><HomeOutlined className="site-form-item-icon" /></Button>
-          <Button className='Button_top' onClick={goToLogin}><ThunderboltOutlined className="site-form-item-icon" /></Button>
-          <Button className='Button_top' onClick={goToLogin}><UserOutlined className="site-form-item-icon" /></Button>
-          <Button className='Button_top' onClick={goToLogin}><StarOutlined className="site-form-item-icon" /></Button>
-
-          <Button className='Button_top' onClick={goToLogin}><AlertOutlined className="site-form-item-icon" /></Button>
-          <Button className='Button_top' onClick={goToLogin}><CommentOutlined className="site-form-item-icon" /></Button>
-          <Button className='Button_top' onClick={goToLogin}><StarOutlined className="site-form-item-icon" /></Button>
-          <Button className='Button_top' onClick={goToLogin}><PoweroffOutlined className="site-form-item-icon" /></Button>
-        </div>
-        
-
-
+        {allCard}
+      </div>
         <div className='content'>
-        <Form
-            name="person"
-            className="person-form"
-          >
-            <Form.Item>
-            <Button onClick={goToLogin} className="person-button">
-                <> </>
-            </Button>
-            </Form.Item>
-
-            <Form.Item>
-              <h>Username<br></br>UserEmail</h>
-            </Form.Item>
-            <Form.Item>
-            <Button onClick={goToLogin} className="add-friend-button">
-                ADD FRIEND
-              </Button>
-            </Form.Item>
-        </Form>
-
-
-        <Button onClick={hide1} className="switch-button">
-                form 1
-        </Button>
-        <Button onClick={hide2} className="switch-button">
-                form 2
-        </Button>
-        <Button onClick={hide3} className="switch-button">
-                form 3
-        </Button>
-
-
-
-        <Form
-            name="form1"
-            className="form1"
-            id ="form1"
-          > 
-            111
-        </Form>
- 
-        <Form
-            name="form2"
-            className="form2"
-            id ="form2"
-          >
-            222
-        </Form>
-
-        <Form
-            name="form3"
-            className="form3"
-            id ="form3"
-          >
-            333
-        </Form>
-
-
-
+          <Moment></Moment>
         </div>
       </div>
     </div>
