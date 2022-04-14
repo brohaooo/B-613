@@ -72,8 +72,7 @@ request:
     "password": "fool",
     "age": 21,
     "gender": "male",
-    "city": "Shenzhen",
-    "picture": "12exfb"
+    "city": "Shenzhen"
 }
 response:
 success:{
@@ -86,7 +85,7 @@ success:{
     "age": 21,
     "gender": "male",
     "city": "Shenzhen",
-    "picture": "12exfb",
+    "picture": "default.png",
     "updatedAt": "2022-04-12T03:00:22.948Z",
     "createdAt": "2022-04-12T03:00:22.948Z"
     }
@@ -369,28 +368,57 @@ respond:
     "updatedAt": "2022-04-12T13:15:33.000Z"
 }
 
-//在（某圈子）发布（动态）
+//在（某圈子）发布（动态）带图片，用表单提交
 url = http://localhost:8080/api/posts
 
 method = POST
 
 request:
+KEY			VALUE
+
+file			xxx.png
+posterID			6
+RCID			8
+text			asfdsdfgdg
+mood			happy
+
+
+respond:
 {
-    "posterID": 5,
-    "RCID": 8,
-    "postPicSrc": "wwwadadfsbc",
-    "text": "wohoooosadfo"
+    "id": 4,
+    "posterID": "6",
+    "RCID": "8",
+    "postPicSrc": "2dc004b968f0078f6e3f648991a6242a.png",
+    "text": "asfdsdfgdg",
+    "mood": "happy",
+    "updatedAt": "2022-04-14T10:43:29.452Z",
+    "createdAt": "2022-04-14T10:43:29.452Z"
+}
+
+//（某用户）在（某圈子）发布（动态）不带图片
+url = http://localhost:8080/api/posts/noPic
+
+method = POST
+
+request:
+{
+    "posterID": 2355,
+    "RCID": 32455,
+    "text": "hahahaha",
+    "mood": "sad"
 }
 respond:
 {
-    "id": 5,
-    "posterID": 5,
-    "RCID": 8,
-    "postPicSrc": "wwwadadfsbc",
-    "text": "wohoooosadfo",
-    "updatedAt": "2022-04-12T13:41:36.701Z",
-    "createdAt": "2022-04-12T13:41:36.701Z"
+    "id": 2,
+    "posterID": 2355,
+    "RCID": 32455,
+    "postPicSrc": "noPic",  //注意这里会固定标识为noPic
+    "text": "hahahaha",
+    "mood": "sad",
+    "updatedAt": "2022-04-14T10:39:42.943Z",
+    "createdAt": "2022-04-14T10:39:42.943Z"
 }
+
 
 //在（某圈子）删除（动态），根据该动态的唯一识别id删除
 url = http://localhost:8080/api/posts/1
@@ -412,17 +440,19 @@ method = POST
 request:
 {
     "commenterID": 2,
-    "postID": 3,
-    "content": "I'm sorry"
+    "postID": 1,
+    "content": "I'm sorry",
+    "RCID": 1
 }
 respond:
 {
     "id": 1,
     "commenterID": 2,
-    "postID": 3,
+    "postID": 1,
+    "RCID": 1,
     "content": "I'm sorry",
-    "updatedAt": "2022-04-12T13:49:10.714Z",
-    "createdAt": "2022-04-12T13:49:10.714Z"
+    "updatedAt": "2022-04-14T12:35:23.078Z",
+    "createdAt": "2022-04-14T12:35:23.078Z"
 }
 
 //在（某动态）删除（某评论），根据该评论的唯一识别id删除
@@ -449,13 +479,15 @@ method = POST
 request:
 {
     "postID": 3,
-    "likerID": 2
+    "likerID": 2,
+    "RCID": 3
 }
 respond:
 {
     "id": 1,
     "postID": 3,
     "likerID": 2,
+    "RCID": 3,
     "updatedAt": "2022-04-12T14:29:18.568Z",
     "createdAt": "2022-04-12T14:29:18.568Z"
 }
@@ -618,11 +650,42 @@ failed
 {
     "state": "invalid"
 }
-//------------
-url =
+//上传头像,用表单提交
+url = http://localhost:8080/api/userPhoto
 
-method =
+method = POST
 
 request:
+KEY			VALUE
+
+file			pointer.png
+id			1
 
 respond:
+{
+    "state": "上传成功！",
+    "fileInfo": {
+        "mimetype": "image/png",
+        "originalname": "pointers.png",
+        "size": 112055,
+        "path": "upload\\34d601b4228040fffd85958fc807e849"
+    }
+}
+
+//获得所有用户
+url = http://localhost:8080/api/users
+
+method = GET
+
+//一个登录测试
+//修改router/users.js，判断用户是否登陆。
+url = http://localhost:8080/api
+
+method = GET
+
+respond:
+if with cookies:
+'你好'+ USER.id +'，欢迎来到我的家园。'
+if withou cookies:
+'你还没有登录，先登录下再试试！'
+
