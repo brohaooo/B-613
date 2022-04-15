@@ -30,6 +30,7 @@ function RegisterPage() {
     setMail('');
     setPassword('');
     setUserName('');
+    window.location.href="/success";
   }; 
   const [password,setPassword] = useState('');
   const [userName,setUserName] = useState('');
