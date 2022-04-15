@@ -14,7 +14,7 @@ function RegisterPage() {
     window.location.href="/register";
   };
   const goToSuccess = () => {
-    window.location.href="/register";
+    window.location.href="/success";
   };
  
   const submit = () => {
