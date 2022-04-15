@@ -13,6 +13,9 @@ function RegisterPage() {
   const goToRegister = () => {
     window.location.href="/register";
   };
+  const goToSuccess = () => {
+    window.location.href="/register";
+  };
  
   const submit = () => {
     axios.post('http://localhost:8080/api/users/', {
@@ -21,7 +24,7 @@ function RegisterPage() {
       password: password,
     })
     .then(function (response) {
-      goToLogin();
+      goToSuccess();
       console.log(response);
     })
     .catch(function (error) {
@@ -30,7 +33,6 @@ function RegisterPage() {
     setMail('');
     setPassword('');
     setUserName('');
-    window.location.href="/success";
   }; 
   const [password,setPassword] = useState('');
   const [userName,setUserName] = useState('');

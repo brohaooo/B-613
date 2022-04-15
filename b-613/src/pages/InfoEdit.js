@@ -5,9 +5,9 @@ import { Layout,Sider,Header,Content,Footer } from 'antd';
 import { RocketOutlined,TeamOutlined,PoweroffOutlined,NotificationOutlined,AlertOutlined,CommentOutlined,EyeInvisibleOutlined, EyeTwoTone, UserOutlined, SearchOutlined, LockOutlined, HomeOutlined, ThunderboltOutlined,StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { Directions } from '@mui/icons-material';
-import logo from '../picture/logo.png'
-
-
+import logo from '../picture/logo.png';
+import { useState } from 'react';
+import axios from "axios";
 
 
 
@@ -26,108 +26,97 @@ function InfoEdit() {
     window.location.href="/home";
   };
 
+  const submit = () => {
+    axios.post('http://localhost:8080/api/users/', {
+      userName: userName,
+      age: age,
+      gender: gender,
+
+    })
+    .then(function (response) {
+    goToHomePage();
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    setUserName('');
+    setGender('');
+    setAge('');
+  }; 
+  const [userName,setUserName] = useState('');
+  const [gender,setGender] = useState('');
+  const [age,setAge] = useState('');
+
+
   return (
-
-<div id="main" class="container">
-
-    <div class="row">
-        <div id="window" class="col-xs-12 col-md-6 col-md-offset-3">
-            <div class="tab-content">
-
-                <div id="d0" class="tab-pane fade in active">
-                    <div class="panel panel-default panel_content">
-                        <div class="panel-heading text-center">
-                            <h3 class="panel-title">
-                                <b>Welcome to edit your profile</b>
-                            </h3>
-                        </div>
-
-                        <div class="panel-body-d0">
-                            <div class="center">
-                                <div class="name">
-                                    <table class="table">
-  
-                                        <tr>
-                                            <td class="text-center font-color">Only your name/ID is necessary. </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center font-color">Start editing！</td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                              
-                               
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+<div className='page'>
+    <div className="container">
+        <div class="panel-heading text-center">
+            <h1 class="panel-title">
+                <b>Welcome to edit your profile information.</b>
+            </h1>
+        </div>
 
 
-                <div id="d1" class="tab-pane fade">
-                    <div class="panel panel-default panel_content">
-                        <div class="panel-heading text-center">
-                            <h3 class="panel-title ">
-                                <b>Enter your info.</b>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="center">
-                                <div class="name">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Your Name/ID</span>
-                                        <Input type="text" class="form-control"  placeholder="请输入"/>
-                                    </div>
-                                </div>
+
+        <div class="panel-heading text-center">
+            <h3>
+                <b>Enter your new information</b>
+            </h3>
+        </div>
     
-                                
-                                <div class="double div-margin">
-                                    <p class="cneter_title text-center">Your Gender</p>
-                                    <div class="center_content btn-group" data-toggle="buttons">
-                                        <label class="btn btn-primary" onClick="nv">
-                                            <Input type="radio" name="options" value="0" v-model="user.sex" id="sex0"/>
-                                            Female
-                                        </label>
-                                        <label class="btn btn-primary" OnClick="nan">
-                                            <Input type="radio" name="options" value="1" v-model="user.sex" id="sex1"/>
-                                            Male
-                                        </label>
-                                    </div>
-                                </div>
-
-
-                                <div class="address div-margin">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Your Age:</span>
-                                        <Input type="text" class="form-control" 
-                                               placeholder="请输入"/>
-                                    </div>
-                                </div>
-
-
-                                <div class="mask">
-                                    <p class="cneter_title text-center">Upload Your Profile Picture:</p>
-                                    <Input id="input-b1" name="input-b1" type="file" class="file"
-                                           data-browse-on-zone-click="true"/>
-                                </div>
-
-
-                               
-      
-  
-   
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div className="panel-body">
+            <div>
+                <span class="input-group-addon">Your New Username:</span>
+                <Input type="text" class="form-control"  placeholder="Username"
+                    onChange={(e) => {
+                    setUserName(e.target.value);
+                    console.log(userName)
+                    }}/>
             </div>
+
+            <div className='input-group'>
+            <span class="input-group-addon">Choose Your Gender:</span>
+            <div className="gender" data-toggle="buttons">
+                
+                <label className="btn btn-primary" onClick={(e) => {
+                                setGender("Female");
+                                console.log(gender)
+                              }}>
+                    <Input type="radio" className="options" value="0" v-model="user.sex" id="sex0"/>
+                    Female
+                </label>
+                <label class="btn btn-primary" OnClick={(e) => {
+                    setGender("Male");
+                    console.log(gender)
+                  }}>
+                    <Input type="radio" className="options" value="1" v-model="user.sex" id="sex1"/>
+                    Male
+                </label>    
+            </div>
+            </div>
+            
+
+            <div class="input-group">
+                <span class="input-group-addon">Your Age:</span>
+                <Input type="text" class="form-control" 
+                    placeholder="请输入"
+                    onChange={(e) => {
+                    setAge(e.target.value);
+                    console.log(age)
+                }}/>
+            </div>
+
+
+            <Button type="primary" htmlType="submit" className="login-form-button"
+                onClick={submit}
+            >
+                Confirm
+            </Button>
         </div>
     </div>
-
+</div>
                 
 
                
