@@ -150,14 +150,18 @@ exports.login = (req, res) => {
           city: data[0].dataValues.city,
           picture: data[0].dataValues.picture
         };
+        const id = user.id;
+        //设置session
+        //token随机生成//额，算了不随机了
+        const token = id + 100000;
+        req.session[token] = id;
+        
+        console.log("in login, token created:",token,":",req.session[token]);
+        console.log("header test:",req.headers.token);
 
 
-        req.session.user = user;  
-        
-        console.log(user);
-        
         state = "valid";
-        res.send({state,data});
+        res.send({state,data,token});
       } 
       else {
         res.status(404).send({
@@ -176,7 +180,7 @@ exports.login = (req, res) => {
 //退出登录（？）
 exports.logout = async (req, res) => {
   try {
-    req.session = null;
+    req.session[req.headers.token] = null;
     return res.status(200).send({ message: "You've been signed out!" });
   } catch (err) {
     this.next(err);

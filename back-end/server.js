@@ -11,8 +11,9 @@ var bodyParser = require("body-parser");
 
 //引入express-session模块并设置中间件
 //npm install cookie-session
-const cookieSession = require("cookie-session");
 
+//const cookieSession = require("cookie-session");
+const session = require("express-session");
 
 
 
@@ -23,6 +24,7 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+/*
 app.use(
   cookieSession({
     name: "bezkoder-session",
@@ -30,6 +32,47 @@ app.use(
     httpOnly: true
   })
 );
+*/
+
+app.use(session({
+  secret : "nihao",  //加密session，随便写
+  cookie : {maxAge : 60*1000*30}, //设置过期时间
+  resave : true,  //强制保存session 默认为 true，建议设置成false
+  saveUninitialized : false ////强制将未初始化的session存储 默认为true，建议设置成true
+}));
+
+
+//设置应用中间件，监控所有请求
+app.use(function (req, res, next) {
+  const token = req.headers.token;
+  if (req.session[token]) {  // 判断用户是否登录
+    console.log("LOGGED IN");
+    next();
+  } else {
+    // 解析用户请求的路径
+    var arr = req.url.split('/');
+    //console.log(arr[2]);
+    const API = arr[2];
+    if(API=="login"||API=="logout"||//API=="test"||
+    API=="users"||API=="verifyEmail"||API=="codeChecking"
+    ||API=="codeSending"
+    ){
+      console.log("these APIs don't need log in");
+      next();
+    }
+    else{//登录拦截
+      //req.flash('error', '请先登录');
+      
+      res.redirect('/login');  // 将用户重定向到登录页面
+      //res.send("redirecting"); // 这一行好像不会执行。。。
+    
+    }
+
+
+
+    //next();
+  }
+});
 
 
 

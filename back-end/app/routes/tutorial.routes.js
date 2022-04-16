@@ -24,21 +24,25 @@ module.exports = app => {
     
 
 
-    //登录验证（用户名，密码）
+    //登录验证（用户名，密码）！！！有权限！！！
     router.post("/login/", Users.login);
     
-    //退出登录（？）
+    //退出登录（？）！！！有权限！！！
     router.post("/logout", Users.logout);
 
 
-    //一个登录测试
+    //一个登录测试 ！！！有权限！！！?
     //修改router/users.js，判断用户是否登陆。
     router.get('/test', function(req, res, next) {
-      if(req.session.user){
-          var USER = req.session.user;
+      console.log(req.session);
+      //console.log(req.session[1]);
+      const token = req.headers.token;
+
+      if(req.session[token]){
+          var USER = req.session[token];
           
           
-          res.send('你好'+ USER.id +'，欢迎来到我的家园。');
+          res.send('你好用户'+ USER +'，欢迎来到我的家园。');
       }else{
           res.send('你还没有登录，先登录下再试试！');
       }
@@ -48,7 +52,7 @@ module.exports = app => {
     
     router.put("/modifyPassword/:id", Users.modifyPassword);
 
-    //新建账户（账户信息）
+    //新建账户（账户信息）！！！有权限！！！
     router.post("/users/", Users.createUser);
     
     //创建（圈子）
@@ -127,16 +131,16 @@ module.exports = app => {
 
 
     //4.13新增api:
-    //查看邮箱是否被注册
+    //查看邮箱是否被注册 ！！！有权限！！！
     router.post("/verifyEmail/", Users.verifyEmail);
 
     //查看用户名是否被注册（需要吗）
 
 
-    //发送邮件并记录 邮箱--验证码 
+    //发送邮件并记录 邮箱--验证码 ！！！有权限！！！
     router.post("/codeSending/", Users.codeSending);
 
-    //验证邮箱--验证码
+    //验证邮箱--验证码 ！！！有权限！！！
     router.post("/codeChecking/", Users.codeChecking);
 
 
