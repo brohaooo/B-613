@@ -20,16 +20,12 @@ function App() {
         <Route path="/register" element={<RegisterPage />} exact></Route>
         <Route path="/home" element={<HomePage />} exact></Route>
         <Route path="/success" element={<SucceedToRegisterPage />} exact></Route>  
-<<<<<<< Updated upstream
         <Route path="/edit" element={<InfoEdit />} exact></Route>  
         <Route path="/admin" element={<Admin />} exact></Route>  
         <Route path="/adminlogin" element={<AdminLoginPage />} exact></Route>  
         <Route path="/modify" element={<ModifyPassword />} exact></Route>  
 
 
-=======
-        <Route path="/edit" element={<InfoEdit />} exact></Route>
->>>>>>> Stashed changes
 
       </Routes>
     </BrowserRouter>
