@@ -7,6 +7,7 @@ import SucceedToRegisterPage from "./pages/SucceedToRegisterPage.js";
 import InfoEdit from "./pages/InfoEdit.js";
 import Admin from "./pages/AdministratorPage.js";
 import AdminLoginPage from "./pages/AdminLoginPage.js";
+<<<<<<< Updated upstream
 import ModifyPassword from "./pages/ModifyPasswordPage.js";
 import ForgotPassword from "./pages/ForgotPasswordPage.js";
 import ActiveChange from "./pages/ActivePasswordChangePage.js";
@@ -15,7 +16,12 @@ import ActiveChange from "./pages/ActivePasswordChangePage.js";
 
 
 
+=======
+// import ModifyPassword from "./pages/ModifyPasswordPage.js";
+import axios from "axios";
+>>>>>>> Stashed changes
 
+axios.defaults.withCredentials=true;
 function App() {
   return (
     <BrowserRouter>
@@ -27,10 +33,14 @@ function App() {
         <Route path="/edit" element={<InfoEdit />} exact></Route>  
         <Route path="/admin" element={<Admin />} exact></Route>  
         <Route path="/adminlogin" element={<AdminLoginPage />} exact></Route>  
+<<<<<<< Updated upstream
         <Route path="/modify" element={<ModifyPassword />} exact></Route>  
         <Route path="/forgot" element={<ForgotPassword />} exact></Route>
         <Route path="/active" element={<ActiveChange />} exact></Route>  
 
+=======
+        {/* <Route path="/modify" element={<ModifyPassword />} exact></Route>   */}
+>>>>>>> Stashed changes
 
 
 

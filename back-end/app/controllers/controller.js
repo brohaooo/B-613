@@ -173,10 +173,9 @@ exports.login = (req, res) => {
         //token随机生成//额，算了不随机了
         const token = id + 100000;
         req.session[token] = id;
-        
         console.log("in login, token created:",token,":",req.session[token]);
         console.log("header test:",req.headers.token);
-
+        console.log("session: ",req.session);
 
         state = "valid";
         res.send({state,data,token});
@@ -328,6 +327,7 @@ exports.createAdministrator = (req, res) => {
 //(某用户)创建（圈子）
 exports.createRC = (req, res) => {
   // Validate request
+  console.log("backtest: ",req.session);
   if (!req.body.rcName) {
     res.status(400).send({
       message: "rcName can not be empty!"

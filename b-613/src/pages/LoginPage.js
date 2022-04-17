@@ -36,6 +36,7 @@ function LoginPage() {
       cookie.save('gender',response.data.data[0].gender); 
       cookie.save('city',response.data.data[0].city);
       cookie.save('picture',response.data.data[0].picture);
+      cookie.save('token',response.data.token);
       goToHome();
       })
     .catch(function (error) {

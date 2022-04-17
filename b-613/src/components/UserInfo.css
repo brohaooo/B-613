@@ -1,0 +1,25 @@
+.u-info{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.user-information{
+    margin-top: 20px;
+    width: 50%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 15px;
+    justify-content: space-around;
+}
+.userName{
+    color: aqua;
+}
+
+.u-info-avatar{
+    margin-top: 20%;
+}

@@ -29,8 +29,7 @@
     border-color: RGB(85,95,163,0.3);
     border-width: 0 1.5px 1.5px 0;
     display: flex;
-
-    width: 70%;
+    width: 100%;
     padding: 10px 60px 10px 10px;
 }
 
