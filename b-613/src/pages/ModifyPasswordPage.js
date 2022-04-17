@@ -9,6 +9,7 @@ import cookie from 'react-cookies'
 
 
 const password = cookie.load('password');
+
 const id = cookie.load('id');
 
 
@@ -26,6 +27,7 @@ function RegisterPage() {
   };
  
   const submit = () => {
+    
     axios.put('http://localhost:8080/api/modifyPassword/' + id, {
       password: password,
     })
@@ -51,8 +53,6 @@ function RegisterPage() {
                 <b>Welcome to modify your password.</b>
             </h1>
         </div>
-
-
 
     
         <div className="panel-body">

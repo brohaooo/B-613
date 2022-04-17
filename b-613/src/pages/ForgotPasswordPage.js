@@ -33,7 +33,7 @@ function ForgotPassword() {
     .then(function (response) {
       console.log(response);
       if(response.data.state == "valid"){
-        goToModify();
+        Login();
       }
       else{
         console.log("verify code is wrong!")
@@ -70,23 +70,14 @@ function ForgotPassword() {
     };
 
   const Login = () => {
-    axios.post('http://localhost:8080/api/login/', {
-      userName: userName,
+    axios.post('http://localhost:8080/api/getIDViaEmail/', {
       userEmail: mail,
-      password: password,
     })
     .then(function (response) { 
-      console.log(response.data.data[0]);
-      cookie.save('id',response.data.data[0].id);
-      console.log(response.data.data[0].id);
-      cookie.save('userName',response.data.data[0].userName); 
-      cookie.save('userEmail',response.data.data[0].userEmail); 
-      cookie.save('age',response.data.data[0].age); 
-      cookie.save('password',response.data.data[0].password); 
-      cookie.save('gender',response.data.data[0].gender); 
-      cookie.save('city',response.data.data[0].city);
-      cookie.save('picture',response.data.data[0].picture);
-      goToHome();
+      console.log(response.data[0].id);
+      cookie.save('id',response.data[0].id);
+     
+      goToModify();
       })
     .catch(function (error) {
       console.log(error);
