@@ -4,19 +4,25 @@ import { RightCircleOutlined,BellOutlined, EyeTwoTone,TeamOutlined, UserOutlined
 import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from 'axios';
+import cookie from 'react-cookies'
 
 function Admin () {
   var allCard = [];
   var res;
   var that = this;
-
- 
+  var id;
+  const goToModify = (id)=>{
+    cookie.save('id',id);
+    window.location.href="/modify";
+   }
   const show = () => {
     axios.get('http://localhost:8080/api/users/', {
  })
     .then(function (response) { 
       console.log(response.data[0]);
-      for(let i=0;i<5;i++){
+
+      let lengthOfResponse = Object.keys(response.data).length
+      for(let i=0;i<lengthOfResponse;i++){
         allCard.push(response.data[i]);
       }
       setDataset(allCard);
@@ -32,10 +38,10 @@ function Admin () {
     return (
 
       <div>
-        <Button 
+        <Button
                 onClick={show}
             >
-                show
+                Click to show the information of all users.
             </Button>
             {console.log(allCard[0])}
             <List
@@ -48,11 +54,17 @@ function Admin () {
           
 
         />
+        
+        ID:{item.id}<br></br>
         Age:{item.age}<br></br>
         Gender:{item.gender}<br></br>
         User Email:{item.userEmail}<br></br>
         User Password:{item.password}<br></br>
-        
+        <Button 
+                
+            >
+                Double click to modify its password
+            </Button>
       </List.Item>
     )}
   />,
