@@ -26,12 +26,12 @@ function RegisterPage() {
   };
  
   const submit = () => {
-    
     axios.put('http://localhost:8080/api/modifyPassword/' + id, {
       password: password,
     })
     .then(function (response) {
       console.log(response);
+      goToLogin();
     })
     .catch(function (error) {
       console.log(error);
