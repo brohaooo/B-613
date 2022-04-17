@@ -60,8 +60,8 @@ app.use(session({
 //设置应用中间件，监控所有请求
 app.use(function (req, res, next) {
   const token = req.headers.token;
-  // console.log(req.session);
-  // console.log(token);
+  console.log(req.session);
+  // console.log("tooken: ",token);
   if (req.session[token]) {  // 判断用户是否登录
     console.log("LOGGED IN");
     next();

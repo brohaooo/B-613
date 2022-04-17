@@ -11,13 +11,13 @@ import ModifyPassword from "./pages/ModifyPasswordPage.js";
 import ForgotPassword from "./pages/ForgotPasswordPage.js";
 import ActiveChange from "./pages/ActivePasswordChangePage.js";
 import Friend from "./pages/FriendsPage.js";
+import axios from 'axios'
 
 
 
 
 
-
-
+axios.defaults.withCredentials=true;
 function App() {
   return (
     <BrowserRouter>

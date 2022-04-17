@@ -32,6 +32,7 @@ function getBase64(file) {
 
 function HomePage() {
 
+  var allPlanets =[];
   const token = cookie.load('token');
   const handleCancel = () => {
     setPreviewVisible(false);
@@ -80,17 +81,39 @@ function HomePage() {
       .catch(function (error) {
         console.log(error);
       });
+  };
+
+  const handleOkM = () => {
+    axios.defaults.withCredentials=true;
+    axios.defaults.headers.common["token"] = cookie.load('token');
+    axios.post('http://localhost:8080/api/RCs/',{
+
+      rcName: planetName,
+      rcOwner: cookie.load('id'),
+      rcTag: planetTag
+    })
+      .then(function (response) {
+        console.log(response.data);
+        setVisibleP(false)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   const selectPlanet = ({ value: newVlue }) => {
 
   }
 
+
   const requestPlanet = () => {
+    console.log(cookie.load('token'));
+    axios.defaults.withCredentials=true;
     axios.defaults.headers.common["token"] = cookie.load('token');
     axios.get('http://localhost:8080/api/members/' + cookie.load('id'))
       .then(function (response) {
         console.log(response.data);
+        setPlanetList(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -98,9 +121,7 @@ function HomePage() {
   }
 
 
-  // useEffect(() => {
-  //   requestPlanet();
-  // });
+ 
     
   const [visibleM, setVisibleM] = useState(false);
   const [visibleP, setVisibleP] = useState(false);
@@ -115,21 +136,24 @@ function HomePage() {
   const [previewTitle, setPreviewTitle] =useState('');
   const [planetName, setPlanetName] =useState('');
   const [planetTag, setPlanetTag] =useState('friend');
+  const [planetList, setPlanetList] =useState([]);
+  const [value, setValue] = useState('');
   const { SubMenu } = Menu;
+  
+  
+  useEffect(() => requestPlanet(), [value]);
+  var allCard = [];
+  for(let i=0;i<planetList.length;i++){
+    allCard.push(<Card
+            className='card'
+            hoverable
+            style={{ width: 100, height: 100,flexShrink: 0, marginRight: '15px' }}
+            cover={<div style={{width: '100%',display: 'flex',justifyContent:'center'}}><Avatar style={{marginTop:'15px'}} size={32} icon={<UserOutlined />}  /></div>}
+          >
+            <Meta className='meta' title={planetList[i].rcName}/>
+          </Card>)
+};
 
-
-  var allCard=[];
-  for(let i=0;i<9;i++){
-        allCard.push(<Card
-                className='card'
-                hoverable
-                style={{ width: 100, height: 100,flexShrink: 0, marginRight: '15px' }}
-                cover={<div style={{width: '100%',display: 'flex',justifyContent:'center'}}><Avatar style={{marginTop:'15px'}} size={32} icon={<UserOutlined />}  /></div>}
-              >
-                <Meta className='meta' title="Planet"/>
-              </Card>)
-  };
-  requestPlanet();
   return (
     <div className='page-1'>
       
@@ -190,7 +214,7 @@ function HomePage() {
           onPreview={handlePreview}
           onChange={handleChange}
         >
-          {fileList.length >= 8 ? null : uploadButton}
+          {fileList.length >= 1 ? null : uploadButton}
         </Upload>
         <Modal
           visible={previewVisible}

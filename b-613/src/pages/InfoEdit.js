@@ -1,6 +1,6 @@
 
 import './InfoEdit.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Avatar } from 'antd';
 import { Layout,Sider,Header,Content,Footer } from 'antd';
 import 'antd/dist/antd.css';
 import logo from '../picture/logo.png';
@@ -23,7 +23,32 @@ function InfoEdit() {
   const goToHomePage = () => {
     window.location.href="/home";
   };
-  
+
+  const changeAvatar = () => {
+
+    let fileData = document.querySelector("#uploadimg1").files[0];
+    let formdata = new FormData();
+    formdata.append("file", fileData);
+    formdata.append("id", cookie.load('id'));
+    setAvatar(formdata);
+    console.log(fileData);
+};
+  const submitAvatar = () => {
+    let headers = {
+      'Content-Type': 'multipart/form-data',
+      'token' : cookie.load('token')
+    }
+      axios.defaults.withCredentials=true;
+      axios.post(
+          "http://localhost:8080/api/userPhoto/", avatar,{headers: headers}
+      ).then(res => {
+          console.log(res.data)
+      }).catch(err => {
+          console.log("错误")
+          console.error(err);
+      });
+  }
+
 
   const submit = () => {
     
@@ -49,6 +74,7 @@ function InfoEdit() {
   const [age,setAge] = useState('');
 
   const [userName,setUserName] = useState('');
+  const [avatar,setAvatar] = useState('');
 
 
   return (
@@ -110,7 +136,8 @@ function InfoEdit() {
                 }}/>
             </div>
 
-
+            <Button onClick={submitAvatar}>上传头像</Button>
+            <input type="file" name="file" multiple="multiple" id="uploadimg1" onChange={changeAvatar}/>
             <Button type="primary" htmlType="submit" className="login-form-button"
                 onClick={submit}
             >
