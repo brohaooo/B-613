@@ -1,12 +1,12 @@
 
 import './HomePage.css';
-import { Form, Input, Button, Checkbox, Avatar,Card } from 'antd';
-import {planet} from '../picture/planet.png'
+import { Form, Input, Modal , Button, Checkbox, Avatar,Card } from 'antd';
 import { RightCircleOutlined,BellOutlined, EyeTwoTone,TeamOutlined, UserOutlined, SearchOutlined, LockOutlined, HomeOutlined, ThunderboltOutlined,StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import logo from '../picture/logo.png'
 import Moment from '../components/Moment';
-
+import cookie from 'react-cookies'
+import { useState } from 'react';
 
 const {Meta} = Card;
 
@@ -33,6 +33,8 @@ function HomePage() {
     window.location.href="/register";
   };
 
+  const userName = cookie.load('userName');
+  const [visible, setVisible] = useState(false);
   
 
   return (
@@ -62,9 +64,9 @@ function HomePage() {
         
         <div className='avatar'>
           <Avatar size={64} icon={<UserOutlined />}  />
-          <h2 className='avatarName'>Username</h2>
+          <h2 className='avatarName'>{userName}</h2>
         </div>
-        <Button className='newMoment' type="primary" shape="round">New Moment</Button>
+        <Button className='newMoment' type="primary" shape="round" onClick={() => setVisible(true) }>New Moment</Button>
       </div>
       <div className='right-part'>
         <div className='top-bar'>
@@ -74,6 +76,16 @@ function HomePage() {
           <Moment></Moment>
         </div>
       </div>
+      <Modal
+        title="Modal 1000px width"
+        centered
+        visible={visible}
+        onOk={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+        width={1000}
+      >
+        
+      </Modal>
     </div>
   );
 }

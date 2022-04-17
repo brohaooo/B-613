@@ -18,25 +18,71 @@ function RegisterPage() {
   };
  
   const submit = () => {
-    axios.post('http://localhost:8080/api/users/', {
-      userName: userName,
+    console.log(validCode);
+    console.log(mail);
+    axios.post('http://localhost:8080/api/codeChecking/', {
+      code: validCode,
       userEmail: mail,
-      password: password,
     })
     .then(function (response) {
-      goToSuccess();
       console.log(response);
+      if(response.data.state == "valid"){
+      axios.post('http://localhost:8080/api/users/', {
+        userName: userName,
+        userEmail: mail,
+        password: password,
+      })
+      .then(function (response) {
+        goToSuccess();
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });}
+      else{
+        console.log("verify code is wrong!")
+      }
     })
     .catch(function (error) {
       console.log(error);
     });
-    setMail('');
     setPassword('');
     setUserName('');
   }; 
+  const submitValid = () => {
+    axios.post('http://localhost:8080/api/verifyEmail/', {
+      userEmail: mail,
+      })
+      .then(function (response) {
+        console.log(response.data.state);
+        if(response.data.state == "valid"){
+          axios.post('http://localhost:8080/api/codeSending/', {
+                userEmail: mail,
+                })
+                .then(function (response) {
+                  console.log(response);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+        }
+        else{
+          console.log("The Email is registered!");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      setMail('');
+      setPassword('');
+      setUserName('');    
+  }; 
+
+
   const [password,setPassword] = useState('');
   const [userName,setUserName] = useState('');
   const [mail,setMail] = useState('');
+  const [validCode,setValidCode] = useState('');
   return (
     <div className="page">
       <div className="totalBox">
@@ -142,6 +188,19 @@ function RegisterPage() {
               >
                 Register
               </Button>
+              <Button type="primary" htmlType="submit" className="login-form-button"
+              onClick={submitValid}
+              >
+                发送验证码
+              </Button>
+              <Input 
+              prefix={<MailOutlined/>}
+              placeholder="ValidCode"
+              size='large'
+              onChange={(e) => {
+                setValidCode(e.target.value);
+                console.log(validCode)
+              }}/>
               Already have account <a style={{color: '#555fa3'}} href="/">Login</a>
             </Form.Item>
           </Form>

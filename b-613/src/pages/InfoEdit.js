@@ -2,9 +2,7 @@
 import './InfoEdit.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { Layout,Sider,Header,Content,Footer } from 'antd';
-import { RocketOutlined,TeamOutlined,PoweroffOutlined,NotificationOutlined,AlertOutlined,CommentOutlined,EyeInvisibleOutlined, EyeTwoTone, UserOutlined, SearchOutlined, LockOutlined, HomeOutlined, ThunderboltOutlined,StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import { Directions } from '@mui/icons-material';
 import logo from '../picture/logo.png';
 import { useState } from 'react';
 import axios from "axios";
