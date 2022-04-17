@@ -141,7 +141,7 @@ module.exports = app => {
 
 
   //上传头像 
-  
+
   //设置文件存储路径,upload文件夹如果不存在则会自己创建一个。
   router.post(
     '/userPhoto',
@@ -150,7 +150,24 @@ module.exports = app => {
   );
 
 
-   //上传动态*改
+
+  //4.17新api：
+
+
+
+  //发送圈子邀请
+
+
+  //查看邀请表
+
+
+
+  //处理邀请
+
+
+  //通过用户邮箱获得用户id
+
+  router.post("/getIDViaEmail/", Users.getIDViaEmail);
 
 
    

@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 var corsOptions = {
-  origin: "http://localhost:3000"
+  origin: "http://localhost:8081"
 };
 
 //登录状态检测:
@@ -55,7 +55,7 @@ app.use(function (req, res, next) {
     const API = arr[2];
     if(API=="login"||API=="logout"||//API=="test"||
     API=="users"||API=="verifyEmail"||API=="codeChecking"
-    ||API=="codeSending" || API == "admin" || API=="adminlogin"
+    ||API=="codeSending" || API == "admin" || API=="adminlogin" || API=="getIDViaEmail"
     ){
       console.log("these APIs don't need log in");
       next();

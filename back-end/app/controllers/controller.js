@@ -10,6 +10,7 @@ const Comment = db.comments;
 const RCMember = db.members;
 const PostLike = db.postLikes;
 const emailCode = db.emailCodes;
+const rcRequest = db.rcRequests;
 let fs = require("fs");
 const path =require('path');  
 
@@ -1202,6 +1203,27 @@ exports.uploadHead = (req, res) => {
      res.send({state,fileInfo});
      
   }
+}
+
+
+exports.getIDViaEmail = (req, res) => {
+  const email = req.body.userEmail;
+  User.findAll({
+    where: {
+      userEmail : email
+    } 
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving RC's posts."
+      });
+    });
+
+
 }
 
 
