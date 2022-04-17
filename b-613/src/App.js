@@ -9,6 +9,8 @@ import Admin from "./pages/AdministratorPage.js";
 import AdminLoginPage from "./pages/AdminLoginPage.js";
 import ModifyPassword from "./pages/ModifyPasswordPage.js";
 import ForgotPassword from "./pages/ForgotPasswordPage.js";
+import ActiveChange from "./pages/ActivePasswordChangePage.js";
+
 
 
 
@@ -26,7 +28,8 @@ function App() {
         <Route path="/admin" element={<Admin />} exact></Route>  
         <Route path="/adminlogin" element={<AdminLoginPage />} exact></Route>  
         <Route path="/modify" element={<ModifyPassword />} exact></Route>  
-        <Route path="/forgot" element={<ForgotPassword />} exact></Route>  
+        <Route path="/forgot" element={<ForgotPassword />} exact></Route>
+        <Route path="/active" element={<ActiveChange />} exact></Route>  
 
 
 
