@@ -1,0 +1,48 @@
+﻿//新建管理员账户
+url = http://localhost:8080/api/admin/
+method = "POST"
+request:
+{
+    "userName": "xcf",
+    "password": "123456",
+}
+respond:
+{
+    "state": "Success",
+    "data": {
+        "id": 1,
+        "userName": "xcf",
+        "password": "1234",
+        "updatedAt": "2022-04-17T07:23:03.822Z",
+        "createdAt": "2022-04-17T07:23:03.822Z"
+    }
+}
+// 管理员登入
+url=url = http://localhost:8080/api/adminlogin/
+method = "POST"
+request:
+{
+    "userName": "xcf",
+    "userPassword": "123456",
+}
+respond:
+{
+    "state": "valid",
+    "data": [
+        {
+            "id": 1,
+            "userName": "xcf",
+            "password": "1234",
+            "createdAt": "2022-04-17T07:23:03.000Z",
+            "updatedAt": "2022-04-17T07:23:03.000Z"
+        }
+    ],
+    "token": 100001
+}
+// 删除所有管理员
+url=url = http://localhost:8080/api/admin/
+method = "DELETE"
+respond:
+{
+    "message": "1 administrators were deleted successfully!"
+}

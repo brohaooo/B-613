@@ -23,5 +23,5 @@ db.comments = require("./comment.js")(sequelize, Sequelize);
 db.members = require("./rcMembers.js")(sequelize, Sequelize);
 db.postLikes = require("./postLikeList.js")(sequelize, Sequelize);
 db.emailCodes = require("./emailCode.js")(sequelize, Sequelize);
-
+db.administratorinfo = require("./administrator.js")(sequelize, Sequelize);
 module.exports = db;

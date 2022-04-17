@@ -2,6 +2,7 @@ const { members, userInfo } = require("../models");
 const db = require("../models");
 const post = require("../models/post");
 const User = db.userInfo;
+const Administrator = db.administratorinfo;
 const Friend = db.friends;
 const RC = db.RCs;
 const Post = db.posts;
@@ -112,6 +113,22 @@ exports.deleteAllUser = (req, res) => {
           });
         });
 };
+// Delete all administrators from the database
+exports.deleteAllAdministrators = (req, res) => {
+    Administrator.destroy({
+        where: {},
+        truncate: false
+    })
+        .then(nums => {
+            res.send({ message: `${nums} administrators were deleted successfully!` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while removing all administrators."
+            });
+        });
+};
 // Find all published users
 /*
 exports.findAllPublishedUser = (req, res) => {
@@ -176,7 +193,44 @@ exports.login = (req, res) => {
       });
     });
 };
-
+// 管理员登录
+exports.administratorlogin = (req, res) => {
+    const administrator = {
+        userName: req.body.userName,
+        password: req.body.password,
+    };
+    var state = "invalid";
+    Administrator.findAll({ where: { userName: administrator.userName, password: administrator.password } })
+        .then(data => {
+            if (data.length != 0) {
+                const administrator = {
+                    id: data[0].dataValues.id,
+                    userName: data[0].dataValues.userName,                   
+                    password: data[0].dataValues.password,                 
+                };
+                const id = administrator.id;
+                //设置session
+                //token生成
+                const token = id + 100000;
+                req.session[token] = id;
+                console.log("in login, token created:", token, ":", req.session[token]);
+                console.log("header test:", req.headers.token);
+                state = "valid";
+                res.send({ state, data, token });
+            }
+            else {
+                res.status(404).send({
+                    state,
+                    message: `Cannot find the administrator with userName=${administrator.userName}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving user with userName=" + administrator.userName
+            });
+        });
+};
 //退出登录（？）
 exports.logout = async (req, res) => {
   try {
@@ -244,7 +298,32 @@ exports.createUser = (req, res) => {
       });
     }); 
 };
-
+// 新建管理员（管理员信息）
+exports.createAdministrator = (req, res) => {
+    // Validate request
+    if (!req.body.userName) {
+        res.status(400).send({
+            message: "userName can not be empty!"
+        });
+        return;
+    }
+    // Create administrator
+    const administrator = {
+        userName: req.body.userName,      
+        password: req.body.password,
+    };
+    // Save in the database
+    Administrator.create(administrator)
+        .then(data => {
+            res.send({ state: 'Success', data });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the administrator."
+            });
+        });
+};
 //(某用户)创建（圈子）
 exports.createRC = (req, res) => {
   // Validate request

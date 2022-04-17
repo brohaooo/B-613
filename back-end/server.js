@@ -55,14 +55,14 @@ app.use(function (req, res, next) {
     const API = arr[2];
     if(API=="login"||API=="logout"||//API=="test"||
     API=="users"||API=="verifyEmail"||API=="codeChecking"
-    ||API=="codeSending"
+    ||API=="codeSending" || API == "admin" || API=="adminlogin"
     ){
       console.log("these APIs don't need log in");
       next();
     }
     else{//登录拦截
       //req.flash('error', '请先登录');
-      
+      console.log("these APIs need log in first");
       res.redirect('/login');  // 将用户重定向到登录页面
       //res.send("redirecting"); // 这一行好像不会执行。。。
     
