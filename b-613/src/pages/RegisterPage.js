@@ -72,10 +72,7 @@ function RegisterPage() {
       })
       .catch(function (error) {
         console.log(error);
-      });
-      setMail('');
-      setPassword('');
-      setUserName('');    
+      });   
   }; 
 
 
