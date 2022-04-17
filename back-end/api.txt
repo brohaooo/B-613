@@ -298,7 +298,7 @@ failed
     "message": "Cannot update user-friend 2 - 1. Maybe user-friend was not found or req.body is empty!"
 }
 //查看（某用户）的所有圈子
-url = http://localhost:8080/api/members/1
+url = http://localhost:8080/api/members/6
 
 method = GET
 
@@ -306,20 +306,30 @@ request:
 NULL
 respond:
 [
-    {
-        "id": 1,
-        "RCID": 2,
-        "memberID": 1,
-        "createdAt": "2022-04-12T12:27:23.000Z",
-        "updatedAt": "2022-04-12T12:27:23.000Z"
-    },
-    {
-        "id": 2,
-        "RCID": 3,
-        "memberID": 1,
-        "createdAt": "2022-04-12T12:27:30.000Z",
-        "updatedAt": "2022-04-12T12:27:30.000Z"
-    }
+    {
+        "id": 16,
+        "rcName": "myPYQdemo",
+        "rcOwner": 6,
+        "rcTag": "friends",
+        "createdAt": "2022-04-17T22:21:39.000Z",
+        "updatedAt": "2022-04-17T22:21:39.000Z"
+    },
+    {
+        "id": 17,
+        "rcName": "myPYQdemo02",
+        "rcOwner": 6,
+        "rcTag": "friends",
+        "createdAt": "2022-04-17T22:21:48.000Z",
+        "updatedAt": "2022-04-17T22:21:48.000Z"
+    },
+    {
+        "id": 18,
+        "rcName": "myPYQdemo021",
+        "rcOwner": 6,
+        "rcTag": "friends",
+        "createdAt": "2022-04-17T23:14:51.000Z",
+        "updatedAt": "2022-04-17T23:14:51.000Z"
+    }
 ]
 
 //查看（某圈子）的所有动态

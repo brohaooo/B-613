@@ -673,7 +673,7 @@ exports.dealRequest = (req, res) => {
 };
 
 //（某用户）查看圈子列表
-exports.checkUserRCs = (req, res) => {
+exports.checkUserRCs = async (req, res) => {
   const id = req.params.id;
   RCMember.findAll({
     where: {
@@ -681,7 +681,42 @@ exports.checkUserRCs = (req, res) => {
     } 
   })
     .then(data => {
-      res.send(data);
+      //console.log("RCS length:",data.length);
+      //console.log("RCS:",data[0].dataValues.RCID);
+      var length = data.length;
+      var id_names = [];
+      
+      for(var i=0;i<length;i++){
+        var RCID = data[i].dataValues.RCID
+        console.log(RCID);
+        id_names[i]=RCID;
+        //let result = await UserList.findOne({where: {id: 15}});
+        //id_names[i] =
+        //[return_value] = await expression;
+        
+        /*
+        .then(num => {
+          //console.log("findByPk:",num.dataValues);
+          id_names[i]=num.dataValues;
+          console.log(id_names[i]);
+        })
+        */
+        //console.log(RC.findByPk(RCID));
+      }
+
+      RC.findAll({
+        where: {
+              id : id_names
+        } 
+      }).then(data => {
+        //console.log("findByPk:",num.dataValues);
+        res.send(data);
+      })
+
+
+
+      
+      //res.send(id_names);
     })
     .catch(err => {
       res.status(500).send({
