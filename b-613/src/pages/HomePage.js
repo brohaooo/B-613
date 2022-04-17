@@ -6,7 +6,7 @@ import { MenuUnfoldOutlined,
   UserOutlined,
   VideoCameraOutlined,
   UploadOutlined, PlusOutlined,TeamOutlined, SearchOutlined, LockOutlined, HomeOutlined, ThunderboltOutlined,StarOutlined,
-  BellOutlined } from '@ant-design/icons';
+  BellOutlined,AppstoreOutlined,SettingOutlined, RocketOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import logo from '../picture/logo.png'
 import Moment from '../components/Moment';
@@ -115,6 +115,8 @@ function HomePage() {
   const [previewTitle, setPreviewTitle] =useState('');
   const [planetName, setPlanetName] =useState('');
   const [planetTag, setPlanetTag] =useState('friend');
+  const { SubMenu } = Menu;
+
 
   var allCard=[];
   for(let i=0;i<9;i++){
@@ -126,42 +128,39 @@ function HomePage() {
               >
                 <Meta className='meta' title="Planet"/>
               </Card>)
-      
   };
   requestPlanet();
   return (
     <div className='page-1'>
-      <div className='left-menu'>
-        <div className='logo'>
-          <img  src={require('../picture/logo.png') } alt="logo"></img>
-        </div>
-       <div className='item-menu'>
-         <div className='menuItem'>
-          <HomeOutlined style={{fontSize:'35px', color: '#9c9c9c'}}/>
-          <h2>Home</h2>
-        </div>
-        <div className='menuItem'>
-          <TeamOutlined style={{fontSize:'35px', color: '#9c9c9c' }}/>
-          <h2>Friends</h2>
-        </div>
-        <div className='menuItem'>
-          <BellOutlined style={{fontSize:'35px', color: '#9c9c9c'}}/>
-          <h2>Message</h2>
-        </div>
-        <div className='menuItem'>
-          <img src={require('../picture/planet_un.png')  }  className='left_logo' alt="logo"></img>
-          <h2>Planet</h2>
-        </div>
-       </div>
-        <Button className='newMoment' type="primary" shape="round" onClick={requestPlanet }>New Moment</Button>
-        <Button className='newMoment' type="primary" shape="round" onClick={() => setVisibleP(true) }>New Planet</Button>
-      </div>
+      
+       <Menu
+            onClick={(e) => {
+              console.log('click ', e);
+            }}
+            style={{ width: '18%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around' }}
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            mode="inline"
+          >
+            <div className='logo'>
+              <img  src={require('../picture/logo.png') } alt="logo"></img>
+            </div>
+            <Menu.Item key="1" icon={<HomeOutlined size={18}></HomeOutlined>}>HomePage</Menu.Item>
+            <Menu.Item key="2" icon={<UserOutlined size={18}></UserOutlined>}>Friend</Menu.Item>
+            <Menu.Item key="3" icon={<BellOutlined size={18}></BellOutlined>}>Message</Menu.Item>
+            <Menu.Item key="4"icon={<RocketOutlined size={18}/>}>Planet</Menu.Item>
+            <Button className='newMoment' type="primary" shape="round" onClick={requestPlanet }>New Moment</Button>
+          <Button className='newMoment' type="primary" shape="round" onClick={() => setVisibleP(true) }>New Planet</Button>
+        </Menu>
+        
+      {/* </div> */}
       <div className='right-part'>
         <div className='top-bar'>
         {allCard}
         </div>
         <div className='content'>
-          <div className='content-momment'>
+          <div className='content-moment'>
+            <Moment></Moment>
             <Moment></Moment>
           </div>
           <UserInfo></UserInfo>

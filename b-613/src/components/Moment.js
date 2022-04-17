@@ -49,6 +49,7 @@ function Moment() {
             </div>
             <Image
               className='moment-image'
+              width={'100%'}
               src={require('../picture/space.jpg')}
             />
             <div className='moment-bottom-bar'>
