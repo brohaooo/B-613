@@ -8,6 +8,8 @@ import InfoEdit from "./pages/InfoEdit.js";
 import Admin from "./pages/AdministratorPage.js";
 import AdminLoginPage from "./pages/AdminLoginPage.js";
 import ModifyPassword from "./pages/ModifyPasswordPage.js";
+import ForgotPassword from "./pages/ForgotPasswordPage.js";
+
 
 
 
@@ -24,6 +26,8 @@ function App() {
         <Route path="/admin" element={<Admin />} exact></Route>  
         <Route path="/adminlogin" element={<AdminLoginPage />} exact></Route>  
         <Route path="/modify" element={<ModifyPassword />} exact></Route>  
+        <Route path="/forgot" element={<ForgotPassword />} exact></Route>  
+
 
 
 
