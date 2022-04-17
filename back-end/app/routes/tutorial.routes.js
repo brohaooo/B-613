@@ -51,7 +51,7 @@ module.exports = app => {
   router.post("/users/", Users.createUser);
   // 新建管理员账户
   router.post("/admin/",Users.createAdministrator);
-  //创建（圈子）
+  //创建（圈子）//会同步将创建者加入该圈子
   router.post("/RCs/", Users.createRC);
 
   //删除（圈子）
@@ -156,14 +156,14 @@ module.exports = app => {
 
 
   //发送圈子邀请
+  router.post("/rcRequest/", Users.sendRcRequest);
+
+  //查看邀请表 id是用户的id
+  router.get("/rcRequest/:id", Users.checkRcRequests);
 
 
-  //查看邀请表
-
-
-
-  //处理邀请
-
+  //处理邀请 
+  router.post("/handleRcRequest/", Users.handleRcRequest);
 
   //通过用户邮箱获得用户id
 

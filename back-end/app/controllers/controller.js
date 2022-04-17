@@ -173,9 +173,10 @@ exports.login = (req, res) => {
         //token随机生成//额，算了不随机了
         const token = id + 100000;
         req.session[token] = id;
+        
         console.log("in login, token created:",token,":",req.session[token]);
         console.log("header test:",req.headers.token);
-        console.log("session: ",req.session);
+
 
         state = "valid";
         res.send({state,data,token});
@@ -327,7 +328,6 @@ exports.createAdministrator = (req, res) => {
 //(某用户)创建（圈子）
 exports.createRC = (req, res) => {
   // Validate request
-  console.log("backtest: ",req.session);
   if (!req.body.rcName) {
     res.status(400).send({
       message: "rcName can not be empty!"
@@ -349,6 +349,16 @@ exports.createRC = (req, res) => {
   // Save RC in the database
   RC.create(circle)
     .then(data => {
+      //会同步将创建者加入该圈子
+      
+      console.log("now addign user ",data.dataValues.id," to members");
+      const rcMember = {
+        RCID: data.dataValues.id,
+        memberID: req.body.rcOwner
+      };
+      // Save rcMember in the database
+      RCMember.create(rcMember)
+        
       res.send(data);
     })
     .catch(err => {
@@ -1206,6 +1216,111 @@ exports.uploadHead = (req, res) => {
 }
 
 
+//4.17新api：
+
+//发送圈子邀请
+exports.sendRcRequest = (req, res) => {
+  const request = {
+    userID : req.body.userID,
+    inviterID : req.body.inviterID,
+    RCID : req.body.RCID
+  };
+  // Save user in the database
+  rcRequest.create(request)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the request."
+      });
+    }); 
+} 
+
+//查看邀请表
+exports.checkRcRequests = (req, res) => {
+  const id = req.params.id;
+  rcRequest.findAll({
+    where: {
+      userID : id
+    } 
+  })
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find RcRequests towards user with id=${id}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error finding RcRequests towards user with id=" + id
+      });
+    });
+};
+
+
+//处理邀请
+exports.handleRcRequest = (req, res) => {
+  const request = {
+    id : req.body.id,
+    action : req.body.action
+    
+  };
+  
+  rcRequest.findByPk(request.id)
+  .then(data => {
+    if(request.action=="approve"){
+      //添加到rc
+      console.log("approve",data);
+      // Create a rcMember
+      const rcMember = {
+        RCID: data.RCID,
+        memberID: data.userID
+      };
+      rcRequest.destroy({
+        where: { id: request.id }
+      })
+      // Save rcMember in the database
+      RCMember.create(rcMember).then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the rcMember."
+        });
+      }); 
+
+      
+    }
+    else if(request.action=="deny"){
+      rcRequest.destroy({
+        where: { id: request.id }
+      })
+      res.send("denied");
+    }
+    else{
+      res.status(404).send({
+        message: `invalide action`
+      })
+    }
+    
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error finding request with id=" + request.id
+    });
+  });
+
+} 
+
+
+
+//通过用户邮箱获得用户id
 exports.getIDViaEmail = (req, res) => {
   const email = req.body.userEmail;
   User.findAll({
@@ -1222,8 +1337,6 @@ exports.getIDViaEmail = (req, res) => {
           err.message || "Some error occurred while retrieving RC's posts."
       });
     });
-
-
 }
 
 
