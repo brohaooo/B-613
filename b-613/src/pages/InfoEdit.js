@@ -6,10 +6,13 @@ import 'antd/dist/antd.css';
 import logo from '../picture/logo.png';
 import { useState } from 'react';
 import axios from "axios";
+import cookie from 'react-cookies'
+
 
 
 
 function InfoEdit() {
+  const id = cookie.load('id');
 
   const goToLogin = () => {
     window.location.href="/";
@@ -20,31 +23,32 @@ function InfoEdit() {
   const goToHomePage = () => {
     window.location.href="/home";
   };
-  const showFriends = () => {
-    window.location.href="/home";
-  };
+  
 
   const submit = () => {
-    axios.post('http://localhost:8080/api/users/', {
-      userName: userName,
-      age: age,
+    
+    axios.put('http://localhost:8080/api/modifyPassword/' + id, {
       gender: gender,
+      userName: userName,
+      age: age
 
     })
     .then(function (response) {
-    goToHomePage();
       console.log(response);
+      goToHomePage();
     })
     .catch(function (error) {
       console.log(error);
     });
-    setUserName('');
     setGender('');
+    setUserName('');
     setAge('');
   }; 
-  const [userName,setUserName] = useState('');
+
   const [gender,setGender] = useState('');
   const [age,setAge] = useState('');
+
+  const [userName,setUserName] = useState('');
 
 
   return (
