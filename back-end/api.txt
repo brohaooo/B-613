@@ -689,3 +689,81 @@ if with cookies:
 if withou cookies:
 '你还没有登录，先登录下再试试！'
 
+//-------------------------4.18新增api---------------------
+
+//发送圈子邀请
+url = http://localhost:8080/api/rcRequest/
+
+method = POST
+
+request:
+{
+    "userID" : 2,
+    "inviterID" : 3,
+    "RCID" : 3
+}
+
+respond:
+{
+    "id": 4,
+    "userID": 2,
+    "inviterID": 3,
+    "RCID": 3,
+    "updatedAt": "2022-04-17T19:07:45.864Z",
+    "createdAt": "2022-04-17T19:07:45.864Z"
+}
+
+//查看邀请表 id是用户的id
+url = http://localhost:8080/api/rcRequest/2/
+
+method = GET
+
+request:
+NULL
+
+respond:
+[
+    {
+        "id": 4,
+        "userID": 2,
+        "inviterID": 3,
+        "RCID": 3,
+        "createdAt": "2022-04-17T19:07:45.000Z",
+        "updatedAt": "2022-04-17T19:07:45.000Z"
+    }
+]
+
+//处理邀请 
+url = http://localhost:8080/api/handleRcRequest/
+
+method = POST
+
+request:
+{
+    "id" : 4,
+    "action" : "approve"
+}
+
+respond:
+if the action is approve
+{
+    "id": 9,
+    "RCID": 3,
+    "memberID": 2,
+    "updatedAt": "2022-04-17T19:12:35.614Z",
+    "createdAt": "2022-04-17T19:12:35.614Z"
+}
+if the action is deny
+denied
+//通过用户邮箱获得用户id
+看群里我发的图，懒得写了。。。
+url = 
+
+method = 
+
+request:
+
+
+respond:
+
+
