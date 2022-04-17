@@ -4,7 +4,11 @@ import LoginPage from "./pages/LoginPage.js";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage.js";
 import SucceedToRegisterPage from "./pages/SucceedToRegisterPage.js";
-import InfoEdit from "./pages/InfoEdit";
+import InfoEdit from "./pages/InfoEdit.js";
+import Admin from "./pages/AdministratorPage.js";
+import AdminLoginPage from "./pages/AdminLoginPage.js";
+import ModifyPassword from "./pages/ModifyPasswordPage.js";
+
 
 
 
@@ -17,6 +21,11 @@ function App() {
         <Route path="/home" element={<HomePage />} exact></Route>
         <Route path="/success" element={<SucceedToRegisterPage />} exact></Route>  
         <Route path="/edit" element={<InfoEdit />} exact></Route>  
+        <Route path="/admin" element={<Admin />} exact></Route>  
+        <Route path="/adminlogin" element={<AdminLoginPage />} exact></Route>  
+        <Route path="/modify" element={<ModifyPassword />} exact></Route>  
+
+
 
       </Routes>
     </BrowserRouter>
