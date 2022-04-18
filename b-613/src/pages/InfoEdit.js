@@ -1,4 +1,3 @@
-
 import './InfoEdit.css';
 import { Form, Input, Button, Checkbox, Avatar } from 'antd';
 import { Layout,Sider,Header,Content,Footer } from 'antd';
@@ -55,7 +54,8 @@ function InfoEdit() {
     axios.put('http://localhost:8080/api/modifyPassword/' + id, {
       gender: gender,
       userName: userName,
-      age: age
+      age: age,
+      city: city
 
     })
     .then(function (response) {
@@ -68,10 +68,12 @@ function InfoEdit() {
     setGender('');
     setUserName('');
     setAge('');
+    setCity('');
   }; 
 
   const [gender,setGender] = useState('');
   const [age,setAge] = useState('');
+  const [city,setCity] = useState('');
 
   const [userName,setUserName] = useState('');
   const [avatar,setAvatar] = useState('');
@@ -129,14 +131,25 @@ function InfoEdit() {
             <div class="input-group">
                 <span class="input-group-addon">Your Age:</span>
                 <Input type="text" class="form-control" 
-                    placeholder="请输入"
+                    placeholder="Age"
                     onChange={(e) => {
                     setAge(e.target.value);
                     console.log(age)
                 }}/>
             </div>
 
-            <Button onClick={submitAvatar}>上传头像</Button>
+            <div class="input-group">
+                <span class="input-group-addon">Your City:</span>
+                <Input type="text" class="form-control" 
+                    placeholder="City"
+                    onChange={(e) => {
+                    setCity(e.target.value);
+                    console.log(age)
+                }}/>
+            </div>
+
+
+            <Button onClick={submitAvatar}>Upload your profile picture:</Button>
             <input type="file" name="file" multiple="multiple" id="uploadimg1" onChange={changeAvatar}/>
             <Button type="primary" htmlType="submit" className="login-form-button"
                 onClick={submit}
