@@ -11,13 +11,16 @@ import ModifyPassword from "./pages/ModifyPasswordPage.js";
 import ForgotPassword from "./pages/ForgotPasswordPage.js";
 import ActiveChange from "./pages/ActivePasswordChangePage.js";
 import Friend from "./pages/FriendsPage.js";
-import axios from 'axios'
+import Message from "./pages/MessagePage.js";
 
 
 
 
 
-axios.defaults.withCredentials=true;
+
+
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -33,6 +36,8 @@ function App() {
         <Route path="/forgot" element={<ForgotPassword />} exact></Route>
         <Route path="/active" element={<ActiveChange />} exact></Route>  
         <Route path="/friend" element={<Friend />} exact></Route>  
+        <Route path="/message" element={<Message />} exact></Route>  
+
 
 
 
