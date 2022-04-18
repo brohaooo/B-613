@@ -71,8 +71,10 @@ function Admin () {
         ID:{item.id}<br></br>
         Age:{item.age}<br></br>
         Gender:{item.gender}<br></br>
+        City:{item.city}<br></br>
         User Email:{item.userEmail}<br></br>
         User Password:{item.password}<br></br>
+
         <Input type="text" class="form-control"  placeholder="New Password"
                     onChange={(e) => {
                     setPassword(e.target.value);
