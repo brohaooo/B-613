@@ -16,6 +16,9 @@ function RegisterPage() {
   const goToSuccess = () => {
     window.location.href="/success";
   };
+  const goToForgot = () => {
+    window.location.href="/forgot";
+  };
  
   const submit = () => {
     console.log(validCode);
@@ -24,8 +27,9 @@ function RegisterPage() {
       code: validCode,
       userEmail: mail,
     })
+  
     .then(function (response) {
-      console.log(response);
+      console.log(response.data.state);
       if(response.data.state == "valid"){
       axios.post('http://localhost:8080/api/users/', {
         userName: userName,
@@ -40,7 +44,9 @@ function RegisterPage() {
         console.log(error);
       });}
       else{
-        console.log("verify code is wrong!")
+        console.log(response);
+
+       //alert("verify code is wrong!")
       }
     })
     .catch(function (error) {
@@ -72,7 +78,8 @@ function RegisterPage() {
       })
       .catch(function (error) {
         console.log(error);
-      });   
+      });
+
   }; 
 
 
@@ -188,7 +195,7 @@ function RegisterPage() {
               <Button type="primary" htmlType="submit" className="login-form-button"
               onClick={submitValid}
               >
-                发送验证码
+                Send Verification Code
               </Button>
               <Input 
               prefix={<MailOutlined/>}
