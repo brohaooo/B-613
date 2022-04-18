@@ -16,6 +16,9 @@ function InfoEdit() {
   const goToLogin = () => {
     window.location.href="/";
   };
+  const goToActive = () => {
+    window.location.href="/active";
+  };
   const goToRegister = () => {
     window.location.href="/register";
   };
@@ -156,6 +159,8 @@ function InfoEdit() {
             >
                 Confirm
             </Button>
+
+            <Button className="login-form-button" onClick={goToActive}>Change your password</Button>
         </div>
     </div>
 </div>
