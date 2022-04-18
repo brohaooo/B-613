@@ -9,15 +9,7 @@ function AdminLoginPage() {
   const goToAdmin = () => {
     window.location.href="/admin";
   };
-  const goToLogin = () => {
-    window.location.href="/";
-  };
-  const goToRegister = () => {
-    window.location.href="/register";
-  };
-  const goToHome = () => {
-    window.location.href="/home";
-  };
+
   const Login = () => {
     axios.post('http://localhost:8080/api/adminlogin/', {
       userName: mail,

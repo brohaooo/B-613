@@ -9,6 +9,9 @@ import cookie from 'react-cookies'
 
 
 function LoginPage() {
+  const goToAdminLogin = () => {
+    window.location.href="/adminlogin";
+  };
   const goToLogin = () => {
     window.location.href="/";
   };
@@ -36,7 +39,7 @@ function LoginPage() {
       cookie.save('gender',response.data.data[0].gender); 
       cookie.save('city',response.data.data[0].city);
       cookie.save('picture',response.data.data[0].picture);
-      //goToHome();
+      goToHome();
       })
     .catch(function (error) {
       console.log(error);
@@ -53,6 +56,8 @@ function LoginPage() {
           <div className='header'>
             <Button className='Button_h' onClick={goToLogin}>Login</Button>
             <Button className='Button_h' onClick={goToRegister}>Register</Button>
+            <Button className='Button_h' onClick={goToAdminLogin}>Admin</Button>
+
           </div>
           <Form
             name="normal_login"
