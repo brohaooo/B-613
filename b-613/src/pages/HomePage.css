@@ -6,7 +6,7 @@
 
 .logo{
   margin-top: -20px;
-  margin-bottom: 0;
+  margin-bottom: -28%;
   margin-left: 20px;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .newMoment{
-  margin-top: 15%;
+  margin-top: 10%;
   background-color: #555fa3;
   border-style: none;
   width: 70%;
@@ -97,7 +97,7 @@ h2{
 
 .right-part{
   height: 100%;
-  width: 82%;
+  width: 80%;
 }
 
 .ant-card-meta-title {
@@ -160,6 +160,7 @@ h2{
 .top-bar{
   overflow-x: scroll;
   scroll-behavior: smooth ;
+  overflow-y: hidden;
   padding: 15px 1px 15px 15px;
   display: flex;
   align-items: center;
@@ -172,13 +173,9 @@ h2{
 }
 
 .content{
-  display: flex;
+  overflow-y: scroll;
   height: calc(100% - 130px);
 }
-
-.content-moment{
-  overflow-y: scroll !important;
-  height: 100% !important;}
 
 .search-input {
   border-radius: 15px;
@@ -278,52 +275,3 @@ h2{
   border-radius: 10px;
 } */ 
 
-#components-layout-demo-custom-trigger .trigger {
-  padding: 0 24px;
-  font-size: 18px;
-  line-height: 64px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-#components-layout-demo-custom-trigger .trigger:hover {
-  color: #1890ff;
-}
-
-#components-layout-demo-custom-trigger .logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.site-layout .site-layout-background {
-  background: #fff;
-}
-
-.ant-menu-item-selected {
-  color: white;
-  background-color: #555fa3 !important;
-  border-style: none;
-}
-
-.ant-menu-item-active {
-  color: white !important;
-  background-color: #ed9b52;
-}
-
-.ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after, .ant-menu-inline .ant-menu-item::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  border-right: 3px solid #ed9b52 !important;
-  transform: scaleY(0.0001);
-  opacity: 0;
-  transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
-  content: '';
-}
-
-.ant-menu-item{
-  height: 8% !important;
-  font-size: 15px;
-}
