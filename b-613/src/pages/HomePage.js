@@ -106,6 +106,28 @@ function HomePage() {
   }
 
 
+  const handelNewMoment = () => {
+    let fileData = fileList[0];
+    let formdata = new FormData();
+    formdata.append("file", fileData);
+    formdata.append("posterID", cookie.load('id'));
+    formdata.append("text",momentText);
+    console.log(fileData);
+
+    setVisibleM(true);
+    console.log(cookie.load('token'));
+    axios.defaults.withCredentials=true;
+    axios.defaults.headers.common["token"] = cookie.load('token');
+    axios.get('http://localhost:8080/api/members/' + cookie.load('id'))
+      .then(function (response) {
+        console.log(response.data);
+        setPlanetList(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const requestPlanet = () => {
     console.log(cookie.load('token'));
     axios.defaults.withCredentials=true;
@@ -125,16 +147,12 @@ function HomePage() {
     
   const [visibleM, setVisibleM] = useState(false);
   const [visibleP, setVisibleP] = useState(false);
-  const [fileList, setFileList] = useState([{
-    uid: '-1',
-    name: 'image.png',
-    status: 'done',
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  }]);
+  const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] =useState(false);
   const [previewImage, setPreviewImage] =useState('');
   const [previewTitle, setPreviewTitle] =useState('');
   const [planetName, setPlanetName] =useState('');
+  const [momentText,setMomentText] =useState('');
   const [planetTag, setPlanetTag] =useState('friend');
   const [planetList, setPlanetList] =useState([]);
   const [value, setValue] = useState('');
@@ -173,7 +191,7 @@ function HomePage() {
             <Menu.Item key="2" icon={<UserOutlined size={18}></UserOutlined>}>Friend</Menu.Item>
             <Menu.Item key="3" icon={<BellOutlined size={18}></BellOutlined>}>Message</Menu.Item>
             <Menu.Item key="4"icon={<RocketOutlined size={18}/>}>Planet</Menu.Item>
-            <Button className='newMoment' type="primary" shape="round" onClick={requestPlanet }>New Moment</Button>
+            <Button className='newMoment' type="primary" shape="round" onClick={handelNewMoment }>New Moment</Button>
           <Button className='newMoment' type="primary" shape="round" onClick={() => setVisibleP(true) }>New Planet</Button>
         </Menu>
         
@@ -191,14 +209,14 @@ function HomePage() {
         </div>
       </div>
       <Modal
-        title="Modal 1000px width"
+        title="New Planet"
         centered
         visible={visibleM}
         onOk={() => setVisibleM(false)}
         onCancel={() => setVisibleM(false)}
-        width={1000}
+        width={700}
       >
-        <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
+        <TextArea rows={4} placeholder="maxLength is 200" maxLength={200} onChange={(e) => {setMomentText(e.target.value)}} />
         <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
           <Option value="jack">Jack</Option>
           <Option value="lucy">Lucy</Option>
