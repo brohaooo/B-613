@@ -690,18 +690,7 @@ exports.checkUserRCs = async (req, res) => {
         var RCID = data[i].dataValues.RCID
         console.log(RCID);
         id_names[i]=RCID;
-        //let result = await UserList.findOne({where: {id: 15}});
-        //id_names[i] =
-        //[return_value] = await expression;
         
-        /*
-        .then(num => {
-          //console.log("findByPk:",num.dataValues);
-          id_names[i]=num.dataValues;
-          console.log(id_names[i]);
-        })
-        */
-        //console.log(RC.findByPk(RCID));
       }
 
       RC.findAll({
@@ -709,14 +698,14 @@ exports.checkUserRCs = async (req, res) => {
               id : id_names
         } 
       }).then(data => {
-        //console.log("findByPk:",num.dataValues);
+        
         res.send(data);
       })
 
 
 
       
-      //res.send(id_names);
+      
     })
     .catch(err => {
       res.status(500).send({
@@ -1354,7 +1343,7 @@ exports.handleRcRequest = (req, res) => {
 } 
 
 
-
+//4.18新api：
 //通过用户邮箱获得用户id
 exports.getIDViaEmail = (req, res) => {
   const email = req.body.userEmail;
@@ -1374,8 +1363,104 @@ exports.getIDViaEmail = (req, res) => {
     });
 }
 
+//显示好友申请（带申请人个人信息）
+exports.checkFRinDetail = (req, res) => {
+  const id = req.params.id;
+  Friend.findAll({
+    where: {
+      [Op.and]: [
+        {
+          friendID : id
+        },
+        { 
+          validateState : "pending"
+        }
+     ]
+    } 
+  })
+    .then(data => {
+      var length = data.length;
+      var id = [];
+      
+      for(var i=0;i<length;i++){
+        var ID = data[i].dataValues.userID;
+        console.log(ID);
+        id[i]=ID;
+        
+      }
+
+      User.findAll({
+        where: {
+              id : id
+        } 
+      }).then(data => {
+        
+        res.send(data);
+      })
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving user's friends requests."
+      });
+    });
+};
 
 
+
+
+//显示好友列表（带好友个人信息）
+exports.checkFriendsInDetail = (req, res) => {
+  const id = req.params.id;
+  Friend.findAll({
+    where: {
+      [Op.and]: [
+        {
+          [Op.or]: [
+            { userID : id },
+            { friendID : id }
+          ]
+        },
+        { 
+          validateState : "approved"
+        }
+     ]
+    } 
+  })
+  .then(data => {
+    var length = data.length;
+    var id = [];
+    var ownID = req.params.id;
+    
+    for(var i=0;i<length;i++){
+      var ID1 = data[i].dataValues.userID;
+      var ID2 = data[i].dataValues.friendID;
+      if(ID1==ownID){
+        id[i]=ID2;
+      }
+      else{
+        id[i]=ID1;
+      }
+      
+      
+    }
+    //console.log(id);
+    User.findAll({
+      where: {
+            id : id
+      } 
+    }).then(data => {
+      
+      res.send(data);
+    })
+  })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving user's friends."
+      });
+    });
+};
 
 
 
