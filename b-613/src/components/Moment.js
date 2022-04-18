@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from 'axios';
 
-function Moment() {
+function Moment(props) {
   const goToLogin = () => {
     window.location.href="/";
   };
@@ -41,11 +41,11 @@ function Moment() {
       </div>
       <div className='moment-right'>
       <div className='moment-1'>
-              <div className='moment-avartar-name'>Username</div>
+              <div className='moment-avartar-name'>{props.username}</div>
               <div className='moment-avartar-mood'><SmileOutlined style={{fontSize: '40px', color: '#555fa3'}}/></div>
             </div>
             <div className='momment-comment'>
-              <p>Card content</p>
+              <p>{props.content}</p>
             </div>
             <Image
               className='moment-image'

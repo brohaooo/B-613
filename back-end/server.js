@@ -58,36 +58,36 @@ app.use(session({
 
 
 //设置应用中间件，监控所有请求
-app.use(function (req, res, next) {
-  const token = req.headers.token;
-  console.log(req.session);
-  // console.log("tooken: ",token);
-  if (req.session[token]) {  // 判断用户是否登录
-    console.log("LOGGED IN");
-    next();
-  } else {
-    // 解析用户请求的路径
-    var arr = req.url.split('/');
-    //console.log(arr[2]);
-    const API = arr[2];
-    if(API=="login"||API=="logout"||//API=="test"||
-    API=="users"||API=="verifyEmail"||API=="codeChecking"
-    ||API=="codeSending" || API == "admin" || API=="adminlogin" || API=="getIDViaEmail"
-    ){
-      console.log("these APIs don't need log in");
-      next();
-    }
-    else{//登录拦截
-      //req.flash('error', '请先登录');
-      console.log("these APIs need log in first");
-      res.redirect('/');  // 将用户重定向到登录页面
-      //res.send("redirecting"); // 这一行好像不会执行。。。
+// app.use(function (req, res, next) {
+//   const token = req.headers.token;
+//   console.log(req.session);
+//   // console.log("tooken: ",token);
+//   if (req.session[token]) {  // 判断用户是否登录
+//     console.log("LOGGED IN");
+//     next();
+//   } else {
+//     // 解析用户请求的路径
+//     var arr = req.url.split('/');
+//     //console.log(arr[2]);
+//     const API = arr[2];
+//     if(API=="login"||API=="logout"||//API=="test"||
+//     API=="users"||API=="verifyEmail"||API=="codeChecking"
+//     ||API=="codeSending" || API == "admin" || API=="adminlogin" || API=="getIDViaEmail"
+//     ){
+//       console.log("these APIs don't need log in");
+//       next();
+//     }
+//     else{//登录拦截
+//       //req.flash('error', '请先登录');
+//       console.log("these APIs need log in first");
+//       res.redirect('/');  // 将用户重定向到登录页面
+//       //res.send("redirecting"); // 这一行好像不会执行。。。
     
-    }
+//     }
 
-    //next();
-  }
-});
+//     //next();
+//   }
+// });
 
 
 
@@ -99,11 +99,11 @@ const db = require("./app/models");
 
 db.sequelize.sync();
 
-/*
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-  });
-*/
+
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log("Drop and re-sync db.");
+//   });
+
 
 // simple route
 app.get("/", (req, res) => {

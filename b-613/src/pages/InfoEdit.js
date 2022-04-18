@@ -33,7 +33,7 @@ function InfoEdit() {
     formdata.append("file", fileData);
     formdata.append("id", cookie.load('id'));
     setAvatar(formdata);
-    console.log(fileData);
+    console.log(formdata.get('id'));
 };
   const submitAvatar = () => {
     let headers = {
@@ -59,7 +59,6 @@ function InfoEdit() {
       userName: userName,
       age: age,
       city: city
-
     })
     .then(function (response) {
       console.log(response);
@@ -87,7 +86,7 @@ function InfoEdit() {
     <div className="container">
         <div class="panel-heading text-center">
             <h1 class="panel-title">
-                <b>Welcome to edit your profile information.</b>
+                <b style={{color: 'white', marginTop: '30px'}}>Welcome to edit your profile information.</b>
             </h1>
         </div>
 
@@ -95,7 +94,7 @@ function InfoEdit() {
 
         <div class="panel-heading text-center">
             <h3>
-                <b>Enter your new information</b>
+                <b style={{color: 'white'}}>Enter your new information</b>
             </h3>
         </div>
     

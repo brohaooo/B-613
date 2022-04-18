@@ -15,6 +15,13 @@ function UserInfo() {
   const city = cookie.load('city');
   const picture = cookie.load('picture');
 
+  const goToEdit = () => {
+    window.location.href="/edit";
+  }
+  const goToLogOut = () => {
+    window.location.href="/";
+  }
+
   return (
     <div className="u-info">
       <Avatar className='u-info-avatar' size={64} icon={<UserOutlined />}  />
@@ -24,7 +31,8 @@ function UserInfo() {
         <div className='age'>Age: {age}</div>
         <div className='city'>City: {city}</div>
       </div>
-      
+      <Button onClick={goToEdit}>Edit</Button>
+      <Button onClick={goToLogOut}>Logout</Button>
     </div>
       
   );

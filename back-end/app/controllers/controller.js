@@ -761,6 +761,8 @@ exports.findOnePost = (req, res) => {
 //（某用户）在（某圈子）发布（动态）带图片!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!修改过！！！！！！！！！！！！！！！！！
 exports.createPost = (req, res) => {
   // Validate request
+  console.log('requeset body',req.body);
+  console.log('requeset body content: ',req.body.posterID);
   if (!req.body.posterID) {
     res.status(400).send({
       message: "posterID can not be empty!"
@@ -804,6 +806,7 @@ exports.createPost = (req, res) => {
       mood: req.body.mood
     };
     // Save post in the database
+    console.log("post",post);
     Post.create(post)
       .then(data => {
         res.send(data);
@@ -1144,7 +1147,7 @@ exports.codeSending = (req, res) => {
     <h1 style="text-align:center;">欢迎注册B-613系统账户</h1>
     <p style="font-size:24px">此次的验证码如下：</p><strong
         style="font-size: 20px;display:block;text-align: center;color: red">${code}</strong>
-    <p>验证码永久有效，因为我懒得定时清除了</p><i style="color: red">此邮件为系统自动发送，请勿回复！若您没有进行注册请忽略</i>   
+    <i style="color: red">此邮件为系统自动发送，请勿回复！若您没有进行注册请忽略</i>   
     </div>
     `
   }

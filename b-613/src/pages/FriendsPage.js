@@ -113,12 +113,8 @@ function Friend () {
   dataSource={dataset}
   renderItem={item => (
     <List.Item>
-      <List.Item.Meta
-        title={<a href="https://ant.design"></a>}
-        
-
-      />
-     Friend ID:{item.id}
+      <div>
+        Friend ID:{item.id}
      
      <br></br>
     
@@ -126,7 +122,9 @@ function Friend () {
       Age:{item.age}<br></br>
       Gender:{item.gender}<br></br>
       User Email:{item.userEmail}<br></br>
-      <Button className='newMoment' type="primary" shape="round" onClick={() => {submitDelete(item.friendID)} }>Delete</Button>
+      <Button className='newMoment' type="primary"  shape="round" onClick={() => {submitDelete(item.friendID)} }>Delete</Button>
+      </div>
+     
 
         
     </List.Item>

@@ -99,33 +99,33 @@ function Message() {
     dataSource={dataset}
     renderItem={item => (
       
-      <List.Item>
-        <List.Item.Meta
-          title={<a href="https://ant.design"></a>}
+      <List.Item style = {{display: 'flex',justifyContent:'flex-start'}}>
+        <div>
+          User Email:{item.userEmail}        <br></br>
+
+          ID:{item.id}
           
-
-        />
-        User Email:{item.userEmail}        <br></br>
-
-        ID:{item.id}
+          <br></br>
+          Age:{item.age}
+                      
+                      <br></br>
+          Gender:{item.gender}
+    
+          <br></br>
+          City:{item.city}
+          
+          
+          <br></br>
+          User Profile Picture:{item.picture}
+          <br></br>
+          Username: {item.userName}
+        </div>
         
-        <br></br>
-        Age:{item.age}
-                    
-                    <br></br>
-        Gender:{item.gender}
-  
-        <br></br>
-        City:{item.city}
+        <div style ={{display: "flex", flexDirection:'column', marginLeft:'50px'}}>
+          <Button className='newMoment' style ={{width: '150px', marginTop: 0}} type="primary" shape="round"  onClick={() => {accept(item.id)} }>Accept</Button>
+          <Button className='newMoment' style ={{width: '150px', marginTop: '20px'}} type="primary" shape="round"  onClick={() => {deny(item.id)} }>Deny</Button>
+        </div>
         
-        
-        <br></br>
-        User Profile Picture:{item.picture}
-        <br></br>
-        Username: {item.userName}
-
-        <Button className='newMoment' type="primary" shape="round" onClick={() => {accept(item.id)} }>Accept</Button>
-        <Button className='newMoment' type="primary" shape="round" onClick={() => {deny(item.id)} }>Accept</Button>
 
 
         

@@ -15,11 +15,14 @@ function LoginPage() {
   const goToLogin = () => {
     window.location.href="/";
   };
+  const goToHome = () => {
+    window.location.href="/home";
+  };
   const goToRegister = () => {
     window.location.href="/register";
   };
-  const goToHome = () => {
-    window.location.href="/home";
+  const goToAdmin = () => {
+    window.location.href="/admin";
     // setMail('');
     // setPassword('');
   };
@@ -56,8 +59,7 @@ function LoginPage() {
           <div className='header'>
             <Button className='Button_h' onClick={goToLogin}>Login</Button>
             <Button className='Button_h' onClick={goToRegister}>Register</Button>
-            <Button className='Button_h' onClick={goToAdminLogin}>Admin</Button>
-
+            <Button className='Button_h' onClick={goToAdmin}>Admin</Button>
           </div>
           <Form
             name="normal_login"
