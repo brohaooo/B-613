@@ -13,11 +13,6 @@ function ActiveChange() {
   const goToModify = () => {
     window.location.href="/modify";
   };
-  
-
-  
-
-
 
   const Login = () => {
     axios.post('http://localhost:8080/api/login/', {
@@ -50,10 +45,10 @@ function ActiveChange() {
 
   return (
     <div>
-                <span class="input-group-addon">Your Email:</span>
+                
                 <Input 
               
-              placeholder="E-mail"
+              placeholder="Your E-mail"
               size='large'
               onChange={(e) => {
                 setMail(e.target.value);

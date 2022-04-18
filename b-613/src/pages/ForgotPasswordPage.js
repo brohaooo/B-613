@@ -107,7 +107,7 @@ function ForgotPassword() {
 <Button type="primary" htmlType="submit" className="login-form-button"
               onClick={submitValid}
               >
-                发送验证码
+                Send Verification Code
               </Button>
 
 
@@ -116,7 +116,6 @@ function ForgotPassword() {
               size='large'
               onChange={(e) => {
                 setValidCode(e.target.value);
-                console.log(validCode)
               }}/>
 
 

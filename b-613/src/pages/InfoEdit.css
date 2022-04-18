@@ -16,13 +16,13 @@
 
 .row{
     border-radius: 15px;
-  margin-top: 3% !important;
-  font-size: 15px;
-  width: 28%;
-  max-height: 100%;
-  background-color: rgba(100, 98, 98, 0.9);
-  padding: 3% 3% 3% 3% !important;
-  fill-opacity: 0.5;
+    margin-top: 3% !important;
+    font-size: 15px;
+    width: 28%;
+    max-height: 100%;
+    background-color: rgba(100, 98, 98, 0.9);
+    padding: 3% 3% 3% 3% !important;
+    fill-opacity: 0.5;
 }
 
 .panel-body{
@@ -60,3 +60,7 @@
     border-style: none !important;
   }
 
+.login-form-button{
+    font-style: normal;
+    color: rgb(255, 255, 255);
+}

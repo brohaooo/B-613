@@ -36,8 +36,7 @@ function LoginPage() {
       cookie.save('gender',response.data.data[0].gender); 
       cookie.save('city',response.data.data[0].city);
       cookie.save('picture',response.data.data[0].picture);
-      cookie.save('token',response.data.token);
-      goToHome();
+      //goToHome();
       })
     .catch(function (error) {
       console.log(error);
@@ -102,7 +101,7 @@ function LoginPage() {
               />
             </Form.Item>
             <Form.Item>
-              <a className="login-form-forgot" style={{color: '#555fa3'}} href="">
+              <a className="login-form-forgot" style={{color: '#555fa3'}} href="/forgot">
                 Forgot password
               </a>
             </Form.Item>
