@@ -170,7 +170,15 @@ module.exports = app => {
   router.post("/getIDViaEmail/", Users.getIDViaEmail);
 
 
-   
+  //4.18新api：
+  //显示好友申请（带申请人个人信息）
+  router.get("/checkFriendsRequests/:id", Users.checkFRinDetail);
+
+
+  //显示好友列表（带好友个人信息）
+  router.get("/checkFriends/:id", Users.checkFriendsInDetail);
+
+
 
 
   app.use('/api', router);
