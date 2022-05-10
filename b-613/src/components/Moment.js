@@ -37,20 +37,20 @@ function Moment(props) {
   return (
     <div className="moment">
       <div className='moment-left'>
-        <Avatar size={50} icon={<UserOutlined />}  />
+        <Avatar size={50} src={props.avatar!=='default.png'?require(`../../../back-end/upload/${props.avatar}`):require(`../picture/ufo.png`)}  />
       </div>
       <div className='moment-right'>
-      <div className='moment-1'>
+        <div className='moment-1'>
               <div className='moment-avartar-name'>{props.username}</div>
-              <div className='moment-avartar-mood'><SmileOutlined style={{fontSize: '40px', color: '#555fa3'}}/></div>
+              {/* <div className='moment-avartar-mood'><SmileOutlined style={{fontSize: '40px', color: '#555fa3'}}/></div> */}
             </div>
             <div className='momment-comment'>
               <p>{props.content}</p>
             </div>
             <Image
               className='moment-image'
-              width={'100%'}
-              src={require('../picture/space.jpg')}
+              // width={'100%'}
+              src={require(`../../../back-end/upload/${props.picture}`)}
             />
             <div className='moment-bottom-bar'>
               <div className='likes'>

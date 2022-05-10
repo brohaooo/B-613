@@ -1,0 +1,55 @@
+.friendCard{
+    margin-left: 2.5%;
+    width: 90% !important;
+    height: 370px;
+    border: 0px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #fbb253 0, #fbb253 50%, #ed9b52 0, #ed9b52 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.deleteBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15%;
+    background-color: white;
+    color: #ed9b52;
+    border-style: none;
+    width: 40%;
+    font-weight: 500;
+    height: 30px;
+    font-size: 18px;
+}
+
+.friendInfo{
+    color: white;
+    display: flex;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    overflow-wrap: break-word;
+}
+.friend-avatar{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-style: solid;
+}
+
+.addFriend{
+    position: fixed;
+    right: 25%;
+    bottom: 50px;
+    background: linear-gradient(180deg, #7d7cdacc 0, #7d7cdacc 50%, #555fa3cc 0, #555fa3cc 100%);
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 0px;
+
+}

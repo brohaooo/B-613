@@ -47,14 +47,12 @@ function ActiveChange() {
     <div>
                 
                 <Input 
-              
               placeholder="Your E-mail"
               size='large'
               onChange={(e) => {
                 setMail(e.target.value);
                 console.log(mail)
               }}/>
-
               <Input 
               
               placeholder="Old Password"

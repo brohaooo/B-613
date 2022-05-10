@@ -3,7 +3,7 @@
     align-items: flex-end;
     align-self: flex-start;
     justify-content: space-between;
-    width: 100%;
+    min-width: 100% !important;
 }
 
 .moment-avartar-name{
@@ -27,7 +27,7 @@
 .moment{
     border-style: solid;
     border-color: RGB(85,95,163,0.3);
-    border-width: 0 1.5px 1.5px 0;
+    border-width: 0 0 1.5px  0;
     display: flex;
     width: 100%;
     padding: 10px 60px 10px 10px;
@@ -38,11 +38,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 100%;
+    padding: 10px 20px 10px 10px;
 }
 
 .moment-image{
-    object-fit:fill;
+    object-fit: fill !important;
     border-radius: 15px;
+    min-width: 100% !important;
 }
 
 .moment-bottom-bar{

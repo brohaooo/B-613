@@ -44,6 +44,11 @@ function Admin () {
     })
 
   }; 
+
+  const goToHome = () => {
+    window.location.href="/";
+  };
+
   const [dataset,setDataset] = useState([]);
   const [password,setPassword] = useState('');
   const [username,setUsername] = useState('');  
@@ -59,6 +64,11 @@ function Admin () {
             >
                 Click to show the information of all users.
             </Button>
+        <Button
+            onClick={goToHome}
+        >
+            Click to goback to login page.
+        </Button>
 
             <List
     itemLayout="horizontal"

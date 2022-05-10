@@ -1,5 +1,5 @@
 .u-info{
-    width: 60%;
+    width: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,3 +20,28 @@
 .u-info-avatar{
     margin-top: 20%;
 }
+
+.userInfoBtn{
+    margin-top: 5%;
+    background-color: #ffcf82;
+    border-style: none;
+    width: 50%;
+    font-weight: bold;
+    height: 30px;
+    font-size: 14px;
+}
+
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+    color: #fff;
+    background: #555fa3;
+    border-color: #555fa3;
+  }
+
+  .userInfoBtn-1
+  {  margin-top: 15%;
+  background-color: #ed9b52;
+  border-style: none;
+  width: 70%;
+  font-weight: bold;
+  height: 50px;
+  font-size: 18px;}

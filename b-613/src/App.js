@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/ForgotPasswordPage.js";
 import ActiveChange from "./pages/ActivePasswordChangePage.js";
 import Friend from "./pages/FriendsPage.js";
 import Message from "./pages/MessagePage.js";
+import Planet from "./pages/PlanetsPage.js";
 
 
 
@@ -37,12 +38,6 @@ function App() {
         <Route path="/active" element={<ActiveChange />} exact></Route>  
         <Route path="/friend" element={<Friend />} exact></Route>  
         <Route path="/message" element={<Message />} exact></Route>  
-
-
-
-
-
-
       </Routes>
     </BrowserRouter>
       

@@ -1,12 +1,19 @@
 
 import './LoginPage.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Modal } from 'antd';
 import {  UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies'
 
+
+function showerror() {
+  Modal.error({
+    title: 'Error!!!',
+    content: 'The password is incorrect!!',
+  });
+}
 
 function LoginPage() {
   const goToAdminLogin = () => {
@@ -22,7 +29,7 @@ function LoginPage() {
     window.location.href="/register";
   };
   const goToAdmin = () => {
-    window.location.href="/admin";
+    window.location.href="/adminlogin";
     // setMail('');
     // setPassword('');
   };
@@ -45,6 +52,7 @@ function LoginPage() {
       goToHome();
       })
     .catch(function (error) {
+      showerror();
       console.log(error);
     });
   };

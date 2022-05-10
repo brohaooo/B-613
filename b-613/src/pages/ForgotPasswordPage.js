@@ -1,11 +1,20 @@
 
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Modal } from 'antd';
 import {  UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies'
+import './ForgetPassword.css'
 
+
+
+function showerror() {
+  Modal.error({
+    title: 'Error!!!',
+    content: 'The valid code is incorrect!!',
+  });
+}
 
 function ForgotPassword() {
   const goToLogin = () => {
@@ -65,6 +74,7 @@ function ForgotPassword() {
       
       })
       .catch(function (error) {
+        showerror();
         console.log(error);
       });
     };
@@ -92,39 +102,41 @@ function ForgotPassword() {
 
 
   return (
-    <div>
-                <span class="input-group-addon">Your Email:</span>
-                <Input 
-              
-              placeholder="E-mail"
-              size='large'
-              onChange={(e) => {
-                setMail(e.target.value);
-                console.log(mail)
-              }}/>
+    <div className='FoegetPasswordPage'>
+      <div className='forgetBox'>
+        <span class="input-group-addon">Your Email:</span>
+        <Input 
+        className='FGinput'
+          placeholder="E-mail"
+          size='large'
+          onChange={(e) => {
+            setMail(e.target.value);
+            console.log(mail)
+          }}/>
 
 
-<Button type="primary" htmlType="submit" className="login-form-button"
-              onClick={submitValid}
-              >
-                Send Verification Code
-              </Button>
+        <Button type="primary" htmlType="submit" className="FG-form-button"
+          onClick={submitValid}
+          >
+            Send Verification Code
+        </Button>
 
-
-              <Input 
-              placeholder="ValidCode"
-              size='large'
-              onChange={(e) => {
-                setValidCode(e.target.value);
-              }}/>
-
-
-<Button type="primary" htmlType="submit" className="login-form-button"
-              onClick={submit}
-              >
-                Confirm
-              </Button>
-            </div>
+        Valid Code:
+        <Input 
+        className='FGinput'
+        placeholder="ValidCode"
+        size='large'
+        onChange={(e) => {
+          setValidCode(e.target.value);
+        }}/>
+        <Button type="primary" htmlType="submit" className="FG-form-button"
+          onClick={submit}
+          >
+            Confirm
+        </Button>
+      </div>
+      
+    </div>
                 
   );
 }

@@ -22,6 +22,7 @@
   height: 100%;
   width: 100%;
   background-image: url(../picture/login_background.jpg);
+  object-fit: fill;
   -moz-background-size:100% 100%; background-size:100% 100%;
 }
 

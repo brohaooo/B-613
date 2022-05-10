@@ -14,25 +14,34 @@ function UserInfo() {
   const gender = cookie.load('gender');
   const city = cookie.load('city');
   const picture = cookie.load('picture');
+  const userid = cookie.load('id');
 
   const goToEdit = () => {
     window.location.href="/edit";
   }
   const goToLogOut = () => {
+    cookie.remove('id');
+      cookie.remove('userName'); 
+      cookie.remove('userEmail'); 
+      cookie.remove('age'); 
+      cookie.remove('password'); 
+      cookie.remove('gender'); 
+      cookie.remove('city');
+      cookie.remove('picture');
     window.location.href="/";
   }
-
   return (
     <div className="u-info">
-      <Avatar className='u-info-avatar' size={64} icon={<UserOutlined />}  />
+      <Avatar className='u-info-avatar' size={64} src={picture!=='default.png'?require(`../../../back-end/upload/${picture}`):require(`../picture/ufo.png`)}  />
       <div className='user-information'>
         <div className='userName'>UserName: {userName}</div>
+        <div className='userName'>UserID: {userid}</div>
         <div className='userEmail'>UserEmail: {userEmail}</div>
         <div className='age'>Age: {age}</div>
         <div className='city'>City: {city}</div>
       </div>
-      <Button onClick={goToEdit}>Edit</Button>
-      <Button onClick={goToLogOut}>Logout</Button>
+      <Button className='userInfoBtn' type="primary" shape="round" onClick={goToEdit}>Edit</Button>
+      <Button className='userInfoBtn-1' type="primary" shape="round" onClick={goToLogOut}>Logout</Button>
     </div>
       
   );

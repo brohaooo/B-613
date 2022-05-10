@@ -1,10 +1,19 @@
 
 import './RegisterPage.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Modal } from 'antd';
 import { MailOutlined,UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from "axios";
+
+
+function showerror() {
+  Modal.error({
+    title: 'Error!!!',
+    content: 'The valid code is incorrect!!',
+  });
+}
+
 
 function RegisterPage() {
   const goToLogin = () => {
@@ -46,14 +55,12 @@ function RegisterPage() {
       else{
         console.log(response);
 
-       //alert("verify code is wrong!")
+       alert("verify code is wrong!")
       }
     })
     .catch(function (error) {
       console.log(error);
     });
-    setPassword('');
-    setUserName('');
   }; 
   const submitValid = () => {
     axios.post('http://localhost:8080/api/verifyEmail/', {
@@ -69,6 +76,7 @@ function RegisterPage() {
                   console.log(response);
                 })
                 .catch(function (error) {
+                  showerror();
                   console.log(error);
                 });
         }
