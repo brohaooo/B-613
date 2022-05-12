@@ -5,11 +5,11 @@ var corsOptions = {
   origin: "http://localhost:3000"
 };
 
-//登录状态检测:
-//引入body-parser模块并设置中间件，以便用req.body来获取post的传值
+//check login status
+// import body-parser module and setup middleware
 var bodyParser = require("body-parser");
 
-//引入express-session模块并设置中间件
+//import express-session module and setup middleware
 //npm install cookie-session
 
 //const cookieSession = require("cookie-session");
@@ -17,13 +17,13 @@ const session = require("express-session");
 
 
 app.use((req, res, next) => {
-  // 设置是否运行客户端设置 withCredentials
-  // 即在不同域名下发出的请求也可以携带 cookie
+  // sets whether to run client settings withCredentials
+  // requests made under different domain names can also be carried cookie
   res.header("Access-Control-Allow-Credentials","true")
-  // 第二个参数表示允许跨域的域名，* 代表所有域名  
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')//配置80端口跨域
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS') // 允许的 http 请求的方法
-  // 允许前台获得的除 Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma 这几张基本响应头之外的响应头
+  // the second parameter indicates the domain name that is allowed to cross domains，* represent all domain names 
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')//configure port 3000 across domains
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS') // allowed http requests
+  // allows the foreground to obtain the division Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma response headers
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, token')
   if (req.method == 'OPTIONS') {
       res.sendStatus(200)
@@ -49,24 +49,24 @@ app.use(
 */
 
 app.use(session({
-  secret : "nihao",  //加密session，随便写
-  cookie : {maxAge : 60*1000*30}, //设置过期时间
-  resave : true,  //强制保存session 默认为 true，建议设置成false
-  saveUninitialized : false ////强制将未初始化的session存储 默认为true，建议设置成true
+  secret : "nihao",  //encryption session
+  cookie : {maxAge : 60*1000*30}, //set expire time
+  resave : true,  //force to save session by default is true
+  saveUninitialized : false ////force to save uninitialized session, by default true
 }));
 
 
 
-//设置应用中间件，监控所有请求
+//set up the application middleware to monitor all requests
 // app.use(function (req, res, next) {
 //   const token = req.headers.token;
 //   console.log(req.session);
 //   // console.log("tooken: ",token);
-//   if (req.session[token]) {  // 判断用户是否登录
+//   if (req.session[token]) {  // check whether the user is logged in 
 //     console.log("LOGGED IN");
 //     next();
 //   } else {
-//     // 解析用户请求的路径
+//     // resloves the patht to the user's request 
 //     var arr = req.url.split('/');
 //     //console.log(arr[2]);
 //     const API = arr[2];
@@ -77,11 +77,11 @@ app.use(session({
 //       console.log("these APIs don't need log in");
 //       next();
 //     }
-//     else{//登录拦截
+//     else{//intercept and login
 //       //req.flash('error', '请先登录');
 //       console.log("these APIs need log in first");
-//       res.redirect('/');  // 将用户重定向到登录页面
-//       //res.send("redirecting"); // 这一行好像不会执行。。。
+//       res.redirect('/');  // redirect the user to the login page
+//       //res.send("redirecting"); 
     
 //     }
 
@@ -95,10 +95,9 @@ app.use(session({
 const db = require("./app/models");
 
 
-//二选一:后者每次重启会清空数据库
+//option: the first one activate database normally, while the second one clear the database with each restart
 
 db.sequelize.sync();
-
 
 // db.sequelize.sync({ force: true }).then(() => {
 //     console.log("Drop and re-sync db.");
@@ -110,7 +109,6 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to back-end application." });
 });
 
-//????
 require("./app/routes/tutorial.routes")(app);
 
 // set port, listen for requests
