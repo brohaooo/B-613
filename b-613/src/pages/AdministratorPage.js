@@ -9,9 +9,8 @@ import cookie from 'react-cookies';
 function Admin () {
   var allCard = [];
  
-
+  // submit the change of  changing the password to back end
   const submit = (id) => {
-    
     axios.put('http://localhost:8080/api/modifyPassword/' + id, {
       password: password,
       userName: username,
@@ -25,30 +24,29 @@ function Admin () {
     });
   }; 
 
-  
+  // get all the information of the users
   const show = () => {
     axios.get('http://localhost:8080/api/users/', {
  })
     .then(function (response) { 
-      //console.log(response.data[0]);
 
       let lengthOfResponse = Object.keys(response.data).length
       for(let i=0;i<lengthOfResponse;i++){
         allCard.push(response.data[i]);
       }
       setDataset(allCard);
-      //console.log(allCard);
         })
     .catch(function (error) {
       console.log(error);
     })
 
   }; 
-
+  // navigate to home
   const goToHome = () => {
     window.location.href="/";
   };
 
+  // self-defined state to stored the data
   const [dataset,setDataset] = useState([]);
   const [password,setPassword] = useState('');
   const [username,setUsername] = useState('');  

@@ -31,7 +31,7 @@ const Axios=axios.create({
   timeout: 5000
 })
 
-
+// transform the file into base 64 encode
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -45,20 +45,10 @@ function getBase64(file) {
 function HomePage() {
 
   var allPlanets =[];
+  //load the token from the cookie
   const token = cookie.load('token');
-  const handleCancel = () => {
-    setPreviewVisible(false);
-  };
 
-  const handlePreview = async file => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url);
-    setPreviewVisible(true);
-    setPreviewTitle(file.name);
-  };
-
+  // handle the upload operation of the picture, and push all the data into form data
   const changePic = (FL) => {
     let fileData = FL;
     console.log('eeeeeeee: ', fileData);
@@ -69,15 +59,9 @@ function HomePage() {
     formdata.append("RCID",momentPlanet);
     formdata.append("mood",'happy');
     setMoment(formdata);
-    // console.log(formdata.get('id'));
   };
 
-  const goToLogin = () => {
-    window.location.href="/";
-  };
-  const goToRegister = () => {
-    window.location.href="/register";
-  };
+  // self- defined upload button
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -85,48 +69,7 @@ function HomePage() {
     </div>
   );
 
-  const handleOkP = () => {
-    console.log(cookie.load('token'))
-    axios.defaults.withCredentials=true;
-    axios.defaults.headers.common["token"] = cookie.load('token');
-    axios.post('http://localhost:8080/api/RCs/',{
-      rcName: planetName,
-      rcOwner: cookie.load('id'),
-      rcTag: planetTag
-    })
-      .then(function (response) {
-        console.log(response.data);
-        setVisibleP(false)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  const handleOkM = () => {
-    axios.defaults.withCredentials=true;
-    axios.defaults.headers.common["token"] = cookie.load('token');
-    axios.post('http://localhost:8080/api/RCs/',{
-
-      rcName: planetName,
-      rcOwner: cookie.load('id'),
-      rcTag: planetTag
-    })
-      .then(function (response) {
-        console.log(response.data);
-        setVisibleP(false)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  const selectPlanet = ({ value: newValue }) => {
-    setPlanetTag(newValue);
-    console.log(newValue)
-  }
-
-
+  // when click the ok button of the modal, submit the form data to the back end
   const handelNewMoment = () => {
     console.log(cookie.load('token'));
     Axios({
@@ -142,6 +85,7 @@ function HomePage() {
       setValue('1');
   };
 
+  // request all the data that the user owns and set the planets list to the state
   const requestPlanet = () => {
     console.log(cookie.load('token'));
     axios.defaults.withCredentials=true;
@@ -158,6 +102,7 @@ function HomePage() {
       }); 
   }
 
+// request the moments that from the planet from the back end
   const requestPlanetMoment = (currentP) => {
     setMomentContentList([]);
     console.log(cookie.load('token'));
@@ -202,21 +147,9 @@ function HomePage() {
       }); 
   }
 
-  const  handleChange = info => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') { //上传成功
-        setLoading(false);
-        console.log(info);
-        setIamgeUrl(info.file.response.info);
-    }
-  };
  
-    
+    // self defined states used in this function
   const [visibleM, setVisibleM] = useState(false);
-  const [visibleP, setVisibleP] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] =useState(false);
   const [previewImage, setPreviewImage] =useState('');
@@ -238,15 +171,15 @@ function HomePage() {
   const [value, setValue] = useState(''); //used to make useEffect onlyrender one time
   const { SubMenu } = Menu;
   
-  
+  // use useEffect to reload the page
   useEffect(() => {
     requestPlanet();
   }, [value]);
 
   var allCard = [];
   var selectPlanetList = [];
-console.log('momentContentList: ', momentContentList);
-  
+
+  // new object variable to stored  all the cards that store the planets
 for(let i=0;i<planetList.length;i++){
     selectPlanetList.push(
       <Option value={planetList[i].id}>{planetList[i].rcName}</Option>
@@ -265,6 +198,7 @@ for(let i=0;i<planetList.length;i++){
 
   return (
     <div className='page-1'>
+      {/* left part menu */}
        <Menu
             onClick={(e) => {
               console.log('click ', e);
@@ -284,8 +218,8 @@ for(let i=0;i<planetList.length;i++){
             <Button className='newMoment' type="primary" shape="round" onClick={() => setVisibleM(true) }>New Moment</Button>
         </Menu>
         
-      {/* </div> */}
       <div className='right-part'>
+        {/* top bar that display the planets */}
         {displayPage==='home'?<div className='top-bar'>
         {allCard}
         </div>: null}
@@ -296,6 +230,7 @@ for(let i=0;i<planetList.length;i++){
           <UserInfo></UserInfo>
         </div>
       </div>
+      {/* modal that used to create new moment */}
       <Modal
         title="New Moment"
         centered
@@ -310,20 +245,10 @@ for(let i=0;i<planetList.length;i++){
           console.log(`select${value}`)}}>
           {selectPlanetList}
         </Select>
-        {/* <Select defaultValue='happy' style={{ width: '100%', marginTop: '10px' }} onChange={(value) =>{
-          setMomentMood(value)
-        }}>
-          <Option value="happy">Happy</Option>
-          <Option value="normal">Normal</Option>
-          <Option value="bad">Bad</Option>
-        </Select> */}
-        {/* <input type="file" name="file" multiple="multiple" id="uploadimg1" onChange={changePic}/> */}
         <Upload
             multiple={false}
-            //陈列样式，现在是卡片式
             listType="picture-card"
             beforeUpload={() => {
-                //阻止上传
                 return false;
             }}
             onChange={(info) => { setFileList(info.fileList);

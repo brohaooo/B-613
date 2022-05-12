@@ -9,11 +9,12 @@ import cookie from 'react-cookies'
 
 
 function ActiveChange() {
-  
+  // navigate to thhe modify page
   const goToModify = () => {
     window.location.href="/modify";
   };
 
+  //post the user info to login
   const Login = () => {
     axios.post('http://localhost:8080/api/login/', {
       userEmail: mail,
@@ -39,13 +40,13 @@ function ActiveChange() {
       setPassword('');
   };
   
+  
   const [password,setPassword] = useState('');
   const [mail,setMail] = useState('');
 
 
   return (
-    <div>
-                
+    <div>      
                 <Input 
               placeholder="Your E-mail"
               size='large'
@@ -61,9 +62,6 @@ function ActiveChange() {
                 setPassword(e.target.value);
                 console.log(mail)
               }}/>
-
-
-
 
 <Button type="primary" htmlType="submit" className="login-form-button"
               onClick={Login}

@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from "axios";
 
-
+// show the error message when the valid code is not correct
 function showerror() {
   Modal.error({
     title: 'Error!!!',
@@ -14,21 +14,20 @@ function showerror() {
   });
 }
 
-
 function RegisterPage() {
+  // navigate to the login page
   const goToLogin = () => {
     window.location.href="/";
   };
+  // navigate to register page
   const goToRegister = () => {
     window.location.href="/register";
   };
+  //navigate to register success page
   const goToSuccess = () => {
     window.location.href="/success";
   };
-  const goToForgot = () => {
-    window.location.href="/forgot";
-  };
- 
+ //submit the create new account request and the related data to the back end
   const submit = () => {
     console.log(validCode);
     console.log(mail);
@@ -62,6 +61,8 @@ function RegisterPage() {
       console.log(error);
     });
   }; 
+
+  // submit the request to the back end so that back end can send the valid code to the user's email
   const submitValid = () => {
     axios.post('http://localhost:8080/api/verifyEmail/', {
       userEmail: mail,
@@ -90,7 +91,7 @@ function RegisterPage() {
 
   }; 
 
-
+// self defined state
   const [password,setPassword] = useState('');
   const [userName,setUserName] = useState('');
   const [mail,setMail] = useState('');
@@ -103,6 +104,7 @@ function RegisterPage() {
             <Button className='Button_h' onClick={goToLogin}>Login</Button>
             <Button className='Button_h' onClick={goToRegister}>Register</Button>
           </div>
+          {/* form that records the new account information */}
           <Form
             name="normal_login"
             className="login-form"

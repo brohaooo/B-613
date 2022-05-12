@@ -6,50 +6,27 @@ import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from 'axios';
 
+
+// self defined moment card that display the detailed moment data
 function Moment(props) {
-  const goToLogin = () => {
-    window.location.href="/";
-  };
-  const goToRegister = () => {
-    window.location.href="/register";
-  };
-  const goToHome = () => {
-    window.location.href="/home";
-  };
-  const Login = () => {
-    axios.post('http://localhost:8080/api/login/', {
-      userEmail: mail,
-      password: password,
-    })
-    .then(function (response) {
-      console.log(response);
-      goToHome();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    setMail('');
-    setPassword('');
-  }; 
-  const [password,setPassword] = useState('');
-  const [mail,setMail] = useState('');
 
   return (
     <div className="moment">
+      {/* the avatar of the user */}
       <div className='moment-left'>
         <Avatar size={50} src={props.avatar!=='default.png'?require(`../../../back-end/upload/${props.avatar}`):require(`../picture/ufo.png`)}  />
       </div>
       <div className='moment-right'>
+        {/* name of the user */}
         <div className='moment-1'>
               <div className='moment-avartar-name'>{props.username}</div>
-              {/* <div className='moment-avartar-mood'><SmileOutlined style={{fontSize: '40px', color: '#555fa3'}}/></div> */}
             </div>
+            {/* moment contents: image and the related text */}
             <div className='momment-comment'>
               <p>{props.content}</p>
             </div>
             <Image
               className='moment-image'
-              // width={'100%'}
               src={require(`../../../back-end/upload/${props.picture}`)}
             />
             <div className='moment-bottom-bar'>

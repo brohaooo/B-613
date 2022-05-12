@@ -7,7 +7,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies'
 
-
+// used to show the error message when the pasword is not correct 
 function showerror() {
   Modal.error({
     title: 'Error!!!',
@@ -16,23 +16,23 @@ function showerror() {
 }
 
 function LoginPage() {
-  const goToAdminLogin = () => {
-    window.location.href="/adminlogin";
-  };
+// navigate to the login page
   const goToLogin = () => {
     window.location.href="/";
   };
+// navigate to home page
   const goToHome = () => {
     window.location.href="/home";
   };
+  //navigate to register page
   const goToRegister = () => {
     window.location.href="/register";
   };
+  //navigate to administration login page
   const goToAdmin = () => {
     window.location.href="/adminlogin";
-    // setMail('');
-    // setPassword('');
   };
+  // submit the login data too back end to check whether the information match so that can return the corresponding response
   const Login = () => {
     axios.post('http://localhost:8080/api/login/', {
       userEmail: mail,
@@ -57,6 +57,7 @@ function LoginPage() {
     });
   };
   
+  // self defined state
   const [password,setPassword] = useState('');
   const [mail,setMail] = useState('');
 

@@ -7,7 +7,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
 
+
+//self defined component that displays the detailed information of the user
 function UserInfo() {
+  // load the user information from the cookie
   const userName = cookie.load('userName');
   const userEmail = cookie.load('userEmail');
   const age = cookie.load('age');
@@ -15,10 +18,11 @@ function UserInfo() {
   const city = cookie.load('city');
   const picture = cookie.load('picture');
   const userid = cookie.load('id');
-
+//navigate to the edit page
   const goToEdit = () => {
     window.location.href="/edit";
   }
+  //log out of current account and clear all the data stored in the cookie
   const goToLogOut = () => {
     cookie.remove('id');
       cookie.remove('userName'); 
@@ -32,7 +36,9 @@ function UserInfo() {
   }
   return (
     <div className="u-info">
+      {/* avatar of the user */}
       <Avatar className='u-info-avatar' size={64} src={picture!=='default.png'?require(`../../../back-end/upload/${picture}`):require(`../picture/ufo.png`)}  />
+      {/* detailed user information */}
       <div className='user-information'>
         <div className='userName'>UserName: {userName}</div>
         <div className='userName'>UserID: {userid}</div>

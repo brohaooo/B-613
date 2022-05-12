@@ -10,16 +10,15 @@ import './FriendsPage.css';
 
 function Friend () {
   var allCard = [];
-  var that = this;
-  var id;
-
+  // load the id of the user from cookie
   const uid = cookie.load('id');
 
+  //show the modal box of add new friend
   const handleFriendAdd = () => {
     setVisibleM(true);   
   };
   
-  
+  // get all the friends of the user from the back end
   const show = () => {
     console.log(uid);
     axios.get('http://localhost:8080/api/checkFriends/' + uid)
@@ -37,13 +36,12 @@ function Friend () {
       })
   }; 
 
+  // submit the add friend request 
   const submit = () => {
-    
     axios.post('http://localhost:8080/api/friends', {
       userID: uid,
       friendID: friendid,
       validateState: 'pending'
-
     })
     .then(function (response) {
       console.log(response);
@@ -53,14 +51,14 @@ function Friend () {
     });
     
   }; 
+
+  // submit the delete request to the back end to delete friends
   const submitDelete = (fid) => {
-    
     axios.delete('http://localhost:8080/api/friends/' + uid + '/' + fid, {
 
     })
     .then(function (response) {
       console.log(response);
-      // window.location.href="/friend";
     })
     .catch(function (error) {
       console.log(error);
@@ -69,28 +67,24 @@ function Friend () {
   }; 
 
   const [friendid, setFriendID] = useState('');
-  const [userid, setUserID] = useState('');
-  const [validatestate, setValidateState] = useState('');
   const [dataset,setDataset] = useState([]);
   const [visibleM, setVisibleM] = useState(false);
   const [value, setValue] = useState('');
 
+//use useEffect to re render the page 
 useEffect(() => {
     show();
   }, [value]);
 
   return (
     <div style = {{width:'100%'}}>
-
-      {/* <Button onClick={show}>
-              Click to show the information of all users.
-      </Button> */}
+      {/* list that show all the friends card */}
   <List
-  itemLayout="horizontal"
-  style={{marginTop: '20px'}}
-  grid={{ gutter: 16, column: 3 }}
-  dataSource={dataset}
-  renderItem={item => (
+    itemLayout="horizontal"
+    style={{marginTop: '20px'}}
+    grid={{ gutter: 16, column: 3 }}
+    dataSource={dataset}
+    renderItem={item => (
     <List.Item style={{display: 'flex', justifyContent: 'center'}}>
       <div className='friendCard' >
       <Avatar className='friend-avatar' size={64} src={item.picture!=='default.png'?require(`../../../back-end/upload/${item.picture}`):require(`../picture/ufo.png`)}  />
@@ -103,14 +97,11 @@ useEffect(() => {
         </div>
         <Button className='deleteBtn' type="primary"  shape="round" onClick={() => {submitDelete(1)} }>Delete</Button>
       </div>
-      
-     
-
-        
     </List.Item>
 
   )}
   />,
+  {/* modal that used to add friend */}
       <Modal
         title="Friend Add"
         centered

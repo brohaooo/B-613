@@ -15,20 +15,7 @@ function Message() {
   var allCard = [];
   var allRequest = [];
 
-  const goToLogin = () => {
-    window.location.href="/";
-  };
-  const goToActive = () => {
-    window.location.href="/active";
-  };
-  const goToRegister = () => {
-    window.location.href="/register";
-  };
-  const goToHomePage = () => {
-    window.location.href="/home";
-  };
-
-  
+  // submit the accept status to the back end to deal with the request 
   const accept = (fid) => {
     axios.put('http://localhost:8080/api/dealRequest/' + uid + '/' + fid, {
       validateState: "approved"
@@ -42,9 +29,8 @@ function Message() {
     });
     
   }; 
-
+  // submit the deny status to the back end to deal with the request 
   const deny = (fid) => {
-    
     axios.put('http://localhost:8080/api/dealRequest/' + uid + '/' + fid, {
       validateState: "denied"
 
@@ -60,7 +46,7 @@ function Message() {
     
   }; 
 
-
+  // submit the accept invitation status to the back end to deal with the request 
   const acceptInvite = (rid) => {
     axios.post('http://localhost:8080/api/handleRcRequest/', {
       action: "approve",
@@ -75,9 +61,8 @@ function Message() {
     });
     
   }; 
-
+  // submit the deny invitationstatus to the back end to deal with the request 
   const denyInvite = (rid) => {
-    
     axios.post('http://localhost:8080/api/handleRcRequest/', {
       action: "deny",
       id: rid,
@@ -92,9 +77,8 @@ function Message() {
     });
     
   }; 
-
+// request all the friend requests and invitation request from the back end and stored these return data list 
   const show = () => {
-    
     axios.get('http://localhost:8080/api/checkFriendsRequests/' + uid, {
     })
     .then(function (response) {
@@ -123,8 +107,6 @@ function Message() {
             axios.defaults.withCredentials=true;
             axios.defaults.headers.common["token"] = cookie.load('token');
             axios.get('http://localhost:8080/api/RCs/' + firstResponse[i].RCID) 
-            //firstResponse[i].RCID
-            // axios.get('http://localhost:8080/api/RCs/' + 1)
               .then(function (response) {
                 setPlanetDataset(preState => [...preState,{
                   rcName: response.data.rcName,
@@ -156,7 +138,6 @@ function Message() {
 
   const [dataset,setDataset] = useState('');
   const [planetDataset,setPlanetDataset] = useState([]);
-  const [userName,setUserName] = useState('');
   const [value,setValue] = useState('');
 
 
@@ -167,7 +148,6 @@ function Message() {
   return (
   <div className='page'>
     <div className='messagePageTitle'>Friends Requests:</div>
-    
     <List
       itemLayout="horizontal"
       dataSource={dataset}
@@ -191,31 +171,28 @@ function Message() {
     )}
   />,
   <div className='messagePageTitle'>Planet Invitation: </div>
-  <List
-  itemLayout="horizontal"
-  dataSource={planetDataset}
-  renderItem={item => (
-  <List.Item style = {{display: 'flex',justifyContent:'flex-start'}}>
-    <div className='message'>
-      <Avatar className='message-avatar' size={64} src={item.inviterPicture!=='default.png'?item.inviterPicture!==undefined?require(`../../../back-end/upload/${item.inviterPicture}`): require(`../picture/ufo.png`):require(`../picture/ufo.png`)}  />
-      <div className='messageInfo'>
-        <div className='messageInfo-user'>
-          {item.inviterName} ({item.inviterEmail})
+    <List
+    itemLayout="horizontal"
+    dataSource={planetDataset}
+    renderItem={item => (
+    <List.Item style = {{display: 'flex',justifyContent:'flex-start'}}>
+      <div className='message'>
+        <Avatar className='message-avatar' size={64} src={item.inviterPicture!=='default.png'?item.inviterPicture!==undefined?require(`../../../back-end/upload/${item.inviterPicture}`): require(`../picture/ufo.png`):require(`../picture/ufo.png`)}  />
+        <div className='messageInfo'>
+          <div className='messageInfo-user'>
+            {item.inviterName} ({item.inviterEmail})
+          </div>
+          Requests to add you into the Planet: {item.rcName}
         </div>
-        Requests to add you into the Planet: {item.rcName}
+        <div style ={{display: "flex", flexDirection:'column', position: 'absolute',right: '5%', width: '10%'}}>
+          <Button className='messageBtn' type="primary" shape="round"  onClick={() => {acceptInvite(item.id)} }>Accept</Button>
+          <Button className='messageBtn' type="primary" shape="round"  onClick={() => {denyInvite(item.id)} }>Deny</Button>
+        </div>
       </div>
-      <div style ={{display: "flex", flexDirection:'column', position: 'absolute',right: '5%', width: '10%'}}>
-        <Button className='messageBtn' type="primary" shape="round"  onClick={() => {acceptInvite(item.id)} }>Accept</Button>
-        <Button className='messageBtn' type="primary" shape="round"  onClick={() => {denyInvite(item.id)} }>Deny</Button>
-      </div>
-    </div>
-  </List.Item>
-)}
-/>,
-</div>
-                
-
-               
+    </List.Item>
+  )}
+  />,
+  </div>      
   );
 }
 

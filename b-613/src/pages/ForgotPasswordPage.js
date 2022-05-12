@@ -8,30 +8,21 @@ import cookie from 'react-cookies'
 import './ForgetPassword.css'
 
 
-
+//show the error message if the valid code is wrong
 function showerror() {
   Modal.error({
     title: 'Error!!!',
     content: 'The valid code is incorrect!!',
   });
 }
-
+// 
 function ForgotPassword() {
-  const goToLogin = () => {
-    window.location.href="/";
-  };
-  const goToRegister = () => {
-    window.location.href="/register";
-  };
+  // navigate to modify page
   const goToModify = () => {
     window.location.href="/modify";
   };
-  const goToHome = () => {
-    window.location.href="/home";
-    // setMail('');
-    // setPassword('');
-  };
 
+  // post the valid code and the email to the back end to check whether they are match
   const submit = () => {
     console.log(validCode);
     console.log(mail);
@@ -54,7 +45,7 @@ function ForgotPassword() {
     setUserName('');
   }; 
 
-
+  // post the request to back end to send the valid code to the target email address
   const submitValid = () => {
     axios.post('http://localhost:8080/api/verifyEmail/', {
       userEmail: mail,
@@ -79,6 +70,7 @@ function ForgotPassword() {
       });
     };
 
+  
   const Login = () => {
     axios.post('http://localhost:8080/api/getIDViaEmail/', {
       userEmail: mail,
@@ -95,7 +87,6 @@ function ForgotPassword() {
   };
 
   const [userName,setUserName] = useState('');
-  
   const [password,setPassword] = useState('');
   const [mail,setMail] = useState('');
   const [validCode,setValidCode] = useState('');

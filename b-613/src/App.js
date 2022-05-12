@@ -24,7 +24,8 @@ import Planet from "./pages/PlanetsPage.js";
 
 function App() {
   return (
-    <BrowserRouter>
+    // The page displayed for each address. We will display different self-defined components in different URLs
+     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} exact></Route>
         <Route path="/register" element={<RegisterPage />} exact></Route>
@@ -36,8 +37,6 @@ function App() {
         <Route path="/modify" element={<ModifyPassword />} exact></Route>  
         <Route path="/forgot" element={<ForgotPassword />} exact></Route>
         <Route path="/active" element={<ActiveChange />} exact></Route>  
-        <Route path="/friend" element={<Friend />} exact></Route>  
-        <Route path="/message" element={<Message />} exact></Route>  
       </Routes>
     </BrowserRouter>
       

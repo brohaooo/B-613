@@ -6,10 +6,12 @@ import { useState } from 'react';
 import axios from 'axios';
 
 function AdminLoginPage() {
+  // navigate to administration login page
   const goToAdmin = () => {
     window.location.href="/admin";
   };
 
+  // post the inputed data to the back end to check whether the data is matched
   const Login = () => {
     axios.post('http://localhost:8080/api/adminlogin/', {
       userName: mail,
@@ -26,6 +28,8 @@ function AdminLoginPage() {
     setMail('');
     setPassword('');
   }; 
+
+  // states that records information
   const [password,setPassword] = useState('');
   const [mail,setMail] = useState('');
 
@@ -33,12 +37,11 @@ function AdminLoginPage() {
     <div className="page">
       <div className="totalBox">
         <div className='right'>
-
+          {/* The form that get input of Administration login  */}
           <Form
             name="normal_login"
             className="login-form"
             initialValues={{ remember: true }}
-            // onFinish={onFinish}
           >
             <Form.Item>
               <h>Admin Login</h>
@@ -72,8 +75,6 @@ function AdminLoginPage() {
                 }}
               />
             </Form.Item>
-
-
             <Form.Item className='item-register'>
               <Button type="primary" htmlType="submit" className="login-form-button"
               onClick={Login}>

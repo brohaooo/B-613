@@ -5,13 +5,8 @@ import 'antd/dist/antd.css';
 
 import s from '../picture/congrat.png'
 
+// page that show the success register information
 function SucceedToRegisterPage(){
-
-
-    const handle = () => {
-        window.location.href="/";
-
-        };
 
     return (
         <div className='success'>

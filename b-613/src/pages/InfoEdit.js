@@ -12,22 +12,16 @@ import {  PlusOutlined} from '@ant-design/icons';
 
 function InfoEdit() {
   const id = cookie.load('id');
-
-  const goToLogin = () => {
-    window.location.href="/";
-  };
+  // navigate to active page
   const goToActive = () => {
     window.location.href="/active";
   };
-  const goToRegister = () => {
-    window.location.href="/register";
-  };
+  // navigate to home page
   const goToHomePage = () => {
     window.location.href="/home";
   };
-
+  // record the avatar data into the form data
   const changeAvatar = (FL) => {
-
     let fileData = FL;
     let formdata = new FormData();
     formdata.append("file", fileData);
@@ -36,7 +30,7 @@ function InfoEdit() {
     console.log(formdata.get('id'));
 };
 
-
+// submit the changed avatar data to the back end
   const submitAvatar = () => {
     let headers = {
       'Content-Type': 'multipart/form-data',
@@ -53,13 +47,14 @@ function InfoEdit() {
       });
   }
 
+  // self defined upload button
   const uploadButton = (
     <div>
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
-
+// submit all the change information to the back end
   const submit = () => {
     submitAvatar();
     axios.put('http://localhost:8080/api/modifyPassword/' + id, {
@@ -97,7 +92,7 @@ function InfoEdit() {
     setAge('');
     setCity('');
   }; 
-
+// self defined state
   const [gender,setGender] = useState('');
   const [age,setAge] = useState('');
   const [city,setCity] = useState('');
@@ -170,10 +165,6 @@ function InfoEdit() {
                     console.log(age)
                 }}/>
             </div>
-
-
-            {/* <Button onClick={submitAvatar}>Upload your profile picture:</Button> */}
-            {/* <input type="file" name="file" multiple="multiple" id="uploadimg1" onChange={changeAvatar}/> */}
             <Upload
                 multiple={false}
                 listType="picture-card"

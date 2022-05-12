@@ -15,17 +15,9 @@ const { TextArea } = Input;
 
 
 function Planet () {
-  var allCard = [];
-  var that = this;
-  var id;
 
   const uid = cookie.load('id');
-
-  const handleFriendAdd = () => {
-    setVisibleM(true);   
-  };
-  
-  
+  // requests for the planets list data from the back end and set the data to the state
   const show = () => {
     console.log(uid);
     axios.defaults.withCredentials=true;
@@ -39,7 +31,7 @@ function Planet () {
         console.log(error);
       }); 
   }; 
-
+// submit the planet invitation request to the back end
   const submit = () => {
     console.log('planet:',planetID);
       if(planetID){
@@ -56,7 +48,7 @@ function Planet () {
       });
     }
     
-    
+  // show the modal where to input the friend id to add
   }; 
   const submitInvite = (pid) => {
     console.log('pid: ', pid);
@@ -64,12 +56,13 @@ function Planet () {
     setVisibleI(true);
   }; 
 
+  // change the tag information stored which for the new created planet
   function handleChange(value) {
     console.log(`selected ${value}`);
     setPlanetTag(value);
   }
   
-
+// submiet the new created planet information request to back end 
   const handleOkP = () => {
     console.log(cookie.load('token'))
     axios.defaults.withCredentials=true;
@@ -90,11 +83,7 @@ function Planet () {
       });
   };
 
-  const selectPlanet = ({ value: newValue }) => {
-    setPlanetTag(newValue);
-    console.log(newValue)
-  }
-
+// self defined state
   const [friendid, setFriendID] = useState('');
   const [userid, setUserID] = useState('');
   const [validatestate, setValidateState] = useState('');
@@ -112,10 +101,6 @@ useEffect(() => {
 
   return (
     <div style = {{width:'100%'}}>
-
-      {/* <Button onClick={show}>
-              Click to show the information of all users.
-      </Button> */}
   <List
   style={{marginTop: '10px', padding: '0 20px 0 20px'}}
   itemLayout="horizontal"
@@ -132,11 +117,11 @@ useEffect(() => {
         <Button className='addBtn' type="primary"  shape="round" onClick={() => {submitInvite(item.id)} }>Add Friend</Button>
       </div>
     </List.Item>
-
   )}
   />,
       
       <Button className='addPlanet' type="primary" shape="round" onClick={() => setVisibleP(true) }>New</Button>
+      {/* modal box to create new planet */}
       <Modal
         title="New Planet"
         centered

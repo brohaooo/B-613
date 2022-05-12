@@ -16,18 +16,13 @@ const id = cookie.load('id');
 
 
 function RegisterPage() {
+  // navigate to the login page
   const goToLogin = () => {
     window.location.href="/";
   };
-  const goToRegister = () => {
-    window.location.href="/register";
-  };
-  const goToSuccess = () => {
-    window.location.href="/success";
-  };
- 
+
+  // submit the changed password to the back end to change the password
   const submit = () => {
-    
     axios.put('http://localhost:8080/api/modifyPassword/' + id, {
       password: password,
     })
@@ -53,11 +48,7 @@ function RegisterPage() {
                 <b>Welcome to modify your password.</b>
             </h1>
         </div>
-
-    
         <div className="panel-body">
-      
-
             <div>
                 <span class="input-group-addon">Your New Password:</span>
                 <Input type="text" class="form-control"  placeholder="New Password"
@@ -66,9 +57,6 @@ function RegisterPage() {
                     console.log(password)
                     }}/>
             </div>
-
-            
-
             <Button type="primary" htmlType="submit" className="login-form-button"
                 onClick={submit}
             >
