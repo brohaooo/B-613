@@ -12,6 +12,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   }
 });
 const db = {};
+//we used sequelize to realize OOP databases, treating each turple as an object
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
