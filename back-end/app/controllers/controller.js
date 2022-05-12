@@ -147,7 +147,7 @@ exports.findAllPublishedUser = (req, res) => {
 */
 
 
-//登录验证（用户名，密码）
+//login authentication (user name, password)
 exports.login = (req, res) => {
   const user = {
     userEmail: req.body.userEmail,
@@ -169,8 +169,8 @@ exports.login = (req, res) => {
           picture: data[0].dataValues.picture
         };
         const id = user.id;
-        //设置session
-        //token随机生成//额，算了不随机了
+        //set session
+        //token is generated as id + 100000
         const token = id + 100000;
         req.session[token] = id;
         
@@ -194,7 +194,7 @@ exports.login = (req, res) => {
       });
     });
 };
-// 管理员登录
+// admin log on
 exports.administratorlogin = (req, res) => {
     const administrator = {
         userName: req.body.userName,
@@ -210,8 +210,8 @@ exports.administratorlogin = (req, res) => {
                     password: data[0].dataValues.password,                 
                 };
                 const id = administrator.id;
-                //设置session
-                //token生成
+                //set uo session
+                //token generation (same as user's)
                 const token = id + 100000;
                 req.session[token] = id;
                 console.log("in login, token created:", token, ":", req.session[token]);
@@ -232,7 +232,7 @@ exports.administratorlogin = (req, res) => {
             });
         });
 };
-//退出登录（？）
+//logout
 exports.logout = async (req, res) => {
   try {
     req.session[req.headers.token] = null;
@@ -242,7 +242,7 @@ exports.logout = async (req, res) => {
   }
 };
 
-//修改密码（用户，新密码）
+//change the password (user, new password)
 exports.modifyPassword = (req, res) => {
   const id = req.params.id;
   User.update(req.body, {
@@ -266,7 +266,7 @@ exports.modifyPassword = (req, res) => {
     });
 };
 
-//新建账户（账户信息）
+//create an account (account information)
 exports.createUser = (req, res) => {
   // Validate request
   if (!req.body.userName) {
@@ -299,7 +299,7 @@ exports.createUser = (req, res) => {
       });
     }); 
 };
-// 新建管理员（管理员信息）
+// Creating an Administrator (Administrator Information)
 exports.createAdministrator = (req, res) => {
     // Validate request
     if (!req.body.userName) {
@@ -325,7 +325,7 @@ exports.createAdministrator = (req, res) => {
             });
         });
 };
-//(某用户)创建（圈子）
+//(a user) to create (a circle)
 exports.createRC = (req, res) => {
   // Validate request
   if (!req.body.rcName) {
@@ -349,7 +349,7 @@ exports.createRC = (req, res) => {
   // Save RC in the database
   RC.create(circle)
     .then(data => {
-      //会同步将创建者加入该圈子
+      //The creator is added to the circle synchronously
       
       console.log("now addign user ",data.dataValues.id," to members");
       const rcMember = {
@@ -369,7 +369,7 @@ exports.createRC = (req, res) => {
     }); 
 };
 
-//(某用户)删除（某圈子）
+//Delete (a circle) from (a user)
 exports.deleteRC = (req, res) => {
   const id = req.params.id;
   RC.destroy({
@@ -399,7 +399,7 @@ exports.deleteRC = (req, res) => {
   res.send({ message: ` RC is deleted successfully! Comments and postlikes are deleted successfully! All RCmembers were deleted successfully!` });
 };
 
-//(某用户)将（某用户）拉入（某圈子）
+//To draw (a user) into (a circle)
 exports.createRCMembers = (req, res) => {
   // Validate request
   if (!req.body.RCID) {
@@ -433,11 +433,9 @@ exports.createRCMembers = (req, res) => {
     }); 
 };
 
-//（某用户）加入（某圈子）
-//同上
 
 
-//（某用户）退出（某圈子）
+//To quite from (a relationship circle).
 exports.deleteMember = (req, res) => {
   const MEMID = req.params.memid;
   const RCID = req.params.rcid;
@@ -468,7 +466,7 @@ exports.deleteMember = (req, res) => {
 };
 
 
-//（某用户）查看好友列表
+//View a list of friends
 exports.checkFriends = (req, res) => {
   const id = req.params.id;
   Friend.findAll({
@@ -497,7 +495,7 @@ exports.checkFriends = (req, res) => {
     });
 };
 
-//（某用户）搜索账户（用户名字？ID？邮箱？）
+//(a user) searches for accounts (user name? ID? Email address?
 exports.findOneUser = (req, res) => {
   const id = req.params.id;
   User.findByPk(id)
@@ -517,7 +515,7 @@ exports.findOneUser = (req, res) => {
     });
 };
 
-//（某用户）添加（某用户为好友）！！！务必设定user为发起者，且状态为pending
+//(user) add (user as friend)!! Make sure that user is the initiator and the status is pending
 exports.createFriends = (req, res) => {
   // Validate request
   if (!req.body.userID) {
@@ -551,7 +549,7 @@ exports.createFriends = (req, res) => {
     }); 
 };
 
-//（某用户）删除（某好友）
+//Delete (a friend) from (a user).
 exports.deleteFriend = (req, res) => {
   const Uid = req.params.userid;
   const Fid = req.params.friendid;
@@ -591,14 +589,14 @@ exports.deleteFriend = (req, res) => {
     });
 };
 
-//（某用户）查看好友申请
+//View a friend request
 exports.checkFriendsRequests = (req, res) => {
   const id = req.params.id;
   Friend.findAll({
     where: {
       [Op.and]: [
         {
-          /*我发现，申请好像是单向的，我定义user是发起者，那么friendID持有者可以查看这个申请
+          /*I find that the application seems to be one-way and I define user as the originator so that the friendID holder can view the application
           [Op.or]: [
             { userID : id },
             { friendID : id }
@@ -625,7 +623,7 @@ exports.checkFriendsRequests = (req, res) => {
 
 
 
-//（某用户）处理（某好友申请）!!!这里userid就是这个用户id
+//Process (a friend request)!! Here userid is the userid
 exports.dealRequest = (req, res) => {
   const Uid = req.params.userid;
   const Fid = req.params.friendid;
@@ -672,7 +670,7 @@ exports.dealRequest = (req, res) => {
     });
 };
 
-//（某用户）查看圈子列表
+//View the circle list
 exports.checkUserRCs = async (req, res) => {
   const id = req.params.id;
   RCMember.findAll({
@@ -715,8 +713,7 @@ exports.checkUserRCs = async (req, res) => {
     });
 };
 
-//（某用户）查看（某圈子）的内容--所有动态
-//要不点开再详细展示吧。。。
+//(a user) views (a circle) content - all activity
 exports.checkPostsByRCID = (req, res) => {
   const id = req.params.id;
   Post.findAll({
@@ -738,7 +735,7 @@ exports.checkPostsByRCID = (req, res) => {
 
 
 
-//（某用户）查看（某动态）的内容--动态信息
+//(a user) views (a dynamic) content - dynamic information
 exports.findOnePost = (req, res) => {
   const id = req.params.id;
   Post.findByPk(id)
@@ -758,7 +755,7 @@ exports.findOnePost = (req, res) => {
     });
 };
 
-//（某用户）在（某圈子）发布（动态）带图片!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!修改过！！！！！！！！！！！！！！！！！
+//(a user) in the (circle) release (dynamic) take pictures!
 exports.createPost = (req, res) => {
   // Validate request
   console.log('requeset body',req.body);
@@ -775,7 +772,7 @@ exports.createPost = (req, res) => {
     });
     return;
   }
-  if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
+  if (req.file.length === 0) {  //To determine whether the file exists, you can also do this in the front-end code
     res.render("error", {message: "上传文件不能为空！"});
     return;
   } 
@@ -783,13 +780,13 @@ exports.createPost = (req, res) => {
     let file = req.file;
     let fileInfo = {};
     console.log(file);
-    //这里可以重命名
+    //can rename it here
     //fs.renameSync('./upload/' + file.filename, './upload/' + file.originalname);
-    //我选择在乱码名字后面加上文件后缀，不然打不开
+    //I choose to add a file suffix to the garbled name, otherwise it won't open
     const extname = path.extname(file.originalname)
     const fileName =  file.filename + extname;
     fs.renameSync('./upload/' + file.filename, './upload/' + fileName);
-    // 获取文件信息
+    // get File Details
     fileInfo.mimetype = file.mimetype;
     fileInfo.originalname = file.originalname;
     fileInfo.size = file.size;
@@ -821,7 +818,7 @@ exports.createPost = (req, res) => {
   
 };
 
-//（某用户）在（某圈子）发布（动态）不带图片!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!新增！！！！！！！！！！！！！！！！！
+//Post (a user) to (a circle) without pictures
 exports.createPostNoPic = (req, res) => {
   // Validate request
   if (!req.body.posterID) {
@@ -873,7 +870,7 @@ exports.createPostNoPic = (req, res) => {
     })
 */
 
-//（某用户）在（某圈子）删除（动态）
+//Delete from (a circle) (a user)
 exports.deletePost = (req, res) => {
   const id = req.params.id;
   Post.destroy({
@@ -899,7 +896,7 @@ exports.deletePost = (req, res) => {
   res.send({ message: ` post is deleted successfully! Comments and postlikes are deleted successfully!` });
 };
 
-//（某用户）在（某动态）发表（评论）
+//(a user) posts (comments) on (a news feed)
 exports.createComment = (req, res) => {
   // Validate request
   if (!req.body.commenterID) {
@@ -940,7 +937,7 @@ exports.createComment = (req, res) => {
     }); 
 };
 
-//（某用户）在（某动态）删除（某评论）
+//Delete (a comment) in (a dynamic)
 exports.deleteComment = (req, res) => {
   const id = req.params.id;
   Comment.destroy({
@@ -964,7 +961,7 @@ exports.deleteComment = (req, res) => {
     });
 };
 
-//（某用户）在（某动态）点赞
+//(a user) thumbs up (a feed)
 exports.createPostLikes = (req, res) => {
   // Validate request
   if (!req.body.postID) {
@@ -1005,7 +1002,7 @@ exports.createPostLikes = (req, res) => {
 };
 
 
-//（某用户）在（某动态）取消点赞
+//To unlike (a user) in (a dynamic)
 
 exports.deletelikeLists = (req, res) => {
   const id = req.params.id;
@@ -1032,7 +1029,7 @@ exports.deletelikeLists = (req, res) => {
 
 
 
-//查看（某动态）的所有评论
+//View all comments on (an activity)
 exports.checkcommentsByPostID = (req, res) => {
   const id = req.params.id;
   Comment.findAll({
@@ -1051,7 +1048,7 @@ exports.checkcommentsByPostID = (req, res) => {
     });
 };
 
-//查看（某动态）的所有点赞
+//View all the likes for (an activity)
 exports.checkLikeListsByPostID = (req, res) => {
   const id = req.params.id;
   PostLike.findAll({
@@ -1070,7 +1067,7 @@ exports.checkLikeListsByPostID = (req, res) => {
     });
 };
 
-//查看（某圈子）
+//To view (a circle).
 exports.findOneRC = (req, res) => {
   const id = req.params.id;
   RC.findByPk(id)
@@ -1091,7 +1088,7 @@ exports.findOneRC = (req, res) => {
 };
 
 
-//查看邮箱是否被注册
+//Check whether the mailbox is registered
 exports.verifyEmail = (req, res) => {
   const email = req.body.userEmail;
   var state = "valid";
@@ -1113,11 +1110,10 @@ exports.verifyEmail = (req, res) => {
     });
 };
 
-//查看用户名是否被注册（需要吗）
 
 
-//发送邮件并记录 邮箱--验证码 
-//nodemailer用于邮箱验证: npm install nodemailer
+//Send mail and record the mailbox - verification code
+//nodemailer For mailbox authentication: npm install nodemailer
 const nodemailer = require("nodemailer")
 
 exports.codeSending = (req, res) => {
@@ -1136,7 +1132,7 @@ exports.codeSending = (req, res) => {
       pass: 'UPOUWYHMHQGXWHMF',
     }
   })
-  //配置相关参数
+  //Configuring Related Parameters
   let options = {
     from: '18926040525@163.com',
     to: '18926040525@163.com,'+ email,
@@ -1168,7 +1164,7 @@ exports.codeSending = (req, res) => {
 
 };
 
-//验证邮箱--验证码
+//Verification mailbox - verification code
 
 exports.codeChecking = (req, res) => {
   const email = req.body.userEmail;
@@ -1199,9 +1195,7 @@ exports.codeChecking = (req, res) => {
 };
 
 
-//上传头像 
-
-
+//upload photo as avatar
 exports.uploadHead = (req, res) => {
   if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
       res.render("error", {message: "上传文件不能为空！"});
@@ -1243,9 +1237,9 @@ exports.uploadHead = (req, res) => {
 }
 
 
-//4.17新api：
+//4.17 new api：
 
-//发送圈子邀请
+//Sending circle invitations
 exports.sendRcRequest = (req, res) => {
   const request = {
     userID : req.body.userID,
@@ -1265,7 +1259,7 @@ exports.sendRcRequest = (req, res) => {
     }); 
 } 
 
-//查看邀请表
+//Viewing the Invitation List
 exports.checkRcRequests = (req, res) => {
   const id = req.params.id;
   rcRequest.findAll({
@@ -1290,7 +1284,7 @@ exports.checkRcRequests = (req, res) => {
 };
 
 
-//处理邀请
+//dealing invitations
 exports.handleRcRequest = (req, res) => {
   const request = {
     id : req.body.id,
@@ -1346,8 +1340,8 @@ exports.handleRcRequest = (req, res) => {
 } 
 
 
-//4.18新api：
-//通过用户邮箱获得用户id
+//4.18 new api：
+//Obtain a user id through the user's mailbox
 exports.getIDViaEmail = (req, res) => {
   const email = req.body.userEmail;
   User.findAll({
@@ -1366,7 +1360,7 @@ exports.getIDViaEmail = (req, res) => {
     });
 }
 
-//显示好友申请（带申请人个人信息）
+//Show friend request (with applicant's personal information)
 exports.checkFRinDetail = (req, res) => {
   const id = req.params.id;
   Friend.findAll({
@@ -1412,7 +1406,7 @@ exports.checkFRinDetail = (req, res) => {
 
 
 
-//显示好友列表（带好友个人信息）
+//Show friends list (with friends' personal information)
 exports.checkFriendsInDetail = (req, res) => {
   const id = req.params.id;
   Friend.findAll({
