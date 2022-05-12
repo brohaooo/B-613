@@ -1,3 +1,5 @@
+//this part is the configuration of the databases (make connection to mysql0
+
 module.exports = {
     HOST: "localhost",
     USER: "root",
